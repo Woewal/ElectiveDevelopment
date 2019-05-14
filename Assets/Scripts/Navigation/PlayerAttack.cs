@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
 public class PlayerAttack : MonoBehaviour
 {
     [SerializeField]
@@ -26,7 +25,7 @@ public class PlayerAttack : MonoBehaviour
         weaponHolder = GetComponent<Transform>();
     }
 
-    private void Shoot(Vector3 _target)
+    public void Shoot(Vector3 _target)
     {
         if (coolDownVariable > 0)
             return;

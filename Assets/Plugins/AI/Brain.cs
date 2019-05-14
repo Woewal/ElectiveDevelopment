@@ -16,7 +16,8 @@ namespace AI
         #region Actions
 
         public Action<Vector3> goTo;
-        public Action<Vector3> turnTowards;
+        public Action<Vector3> attack;
+        public Action<Vector3> passBall;
 
         #endregion
 
