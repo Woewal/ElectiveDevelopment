@@ -7,8 +7,9 @@ namespace AI
     {
         public Vector3 position;
         public Quaternion rotation;
+        public float currentHealth;
         public bool alive;
-        // public Team team;
+        public Team team;
     }
 
     public struct RobotControls

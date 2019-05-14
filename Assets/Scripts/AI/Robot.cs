@@ -13,6 +13,7 @@ namespace AI
         public int health;
         public float speed;
         public int damage;
+        public Team team;
 
         public bool IsAlive { get; private set; }
 
@@ -66,7 +67,9 @@ namespace AI
             {
                 position = robot.transform.position,
                 rotation = robot.transform.rotation,
-                alive = robot.IsAlive
+                currentHealth = robot.health,
+                alive = robot.IsAlive,
+                team = robot.team
             };
         }
 
