@@ -11,6 +11,17 @@ namespace AI
         public bool alive;
         public Team team;
     }
+    public struct SubjectiveRobot
+    {
+        public Vector3 currentPosition;
+        public float currentHealth;
+        public bool isAlive;
+        public bool isSeen;
+        public Vector3 lastShootDir;
+        public Team team;
+        public String name;
+        public int id;
+    }
 
     public struct RobotControls
     {
@@ -23,6 +34,9 @@ namespace AI
         #endregion
 
         #region Data
+        //new Data
+        public SubjectiveRobot myself;
+        public SubjectiveRobot[] otherRobots;
 
         public Target me;
         // public Team team;

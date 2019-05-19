@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace AI
@@ -14,6 +15,10 @@ namespace AI
         public float speed;
         public int damage;
         public Team team;
+        public bool alive;
+        public int id;
+
+        List<RobotListElement> listOfRobots = new List<RobotListElement>();
 
         public bool IsAlive { get; private set; }
 
@@ -45,7 +50,7 @@ namespace AI
 
         private void UpdateData()
         {
-            controls.me = GetAsTarget(this);
+            controls.myself = GetAsTarget(this, true, true);
         }
 
         /// <summary>
@@ -58,25 +63,58 @@ namespace AI
             // This list should be stored somewhere central for better performance! Finding objects is expensive!
             var allRobots = FindObjectsOfType<Robot>();
             // Take the robots that are alive and that we can see and create a target of them
-            controls.visibleTargets = allRobots.Where(r => r.IsAlive).Where(CanSee).Select(GetAsTarget).ToArray();
+            //controls.visibleTargets = allRobots.Where(r => r.IsAlive).Where(CanSee).Select(GetAsTarget).ToArray();
+            controls.otherRobots = allRobots.Select(r => r.GetAsTarget(r, CanSee(r), IsTeammate(r))).ToArray();
         }
 
-        public static Target GetAsTarget(Robot robot)
+        public SubjectiveRobot GetAsTarget(Robot robot, bool canSee, bool isTeammate)
         {
-            return new Target
+            if (canSee || isTeammate)
             {
-                position = robot.transform.position,
-                rotation = robot.transform.rotation,
-                currentHealth = robot.health,
-                alive = robot.IsAlive,
-                team = robot.team
-            };
+                return new SubjectiveRobot
+                {
+                    currentPosition = robot.playerMovement.currentRobotPosition,
+                    currentHealth = robot.health,
+                    lastShootDir = robot.playerAttack.lastShootDirection,
+                    isAlive = robot.alive,
+                    isSeen = canSee,
+                    team = robot.team,
+                    name = robot.name,
+                    id = robot.id
+                };
+            
+            }
+            else
+            {
+                return new SubjectiveRobot
+                {
+                    isSeen = canSee,
+                    team = robot.team,
+                    name = robot.name,
+                    id = robot.id
+                };
+            }
         }
 
         private bool CanSee(Robot target)
         {
-            // Do some raycasting
-            return true;
+            RaycastHit hit;
+            if (Physics.Raycast(playerMovement.currentRobotPosition, target.transform.position, out hit))
+            {
+                if (hit.transform.gameObject == target.gameObject)
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+        private bool IsTeammate(Robot target)
+        {
+            if (team == target.team)
+                return true;          
+            else
+                return false;
         }
 
         #endregion

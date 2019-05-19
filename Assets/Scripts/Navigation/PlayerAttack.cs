@@ -18,6 +18,8 @@ public class PlayerAttack : MonoBehaviour
     private Vector3 lastTarget;
 
     public Transform weaponHolder;
+
+    public Vector3 lastShootDirection { get; private set; }
     // Start is called before the first frame update
     void Start()
     {
