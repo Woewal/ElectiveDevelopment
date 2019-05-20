@@ -25,6 +25,7 @@ namespace AI
         public void Start()
         {
             IsAlive = true;
+            RobotManager.Instance.Register(this);
 
             // Set up the controls - what doesn't change?
 
@@ -61,10 +62,10 @@ namespace AI
         private void UpdateTargets()
         {
             // This list should be stored somewhere central for better performance! Finding objects is expensive!
-            var allRobots = FindObjectsOfType<Robot>();
+            var allRobots = RobotManager.Instance.allRobots;
             // Take the robots that are alive and that we can see and create a target of them
             //controls.visibleTargets = allRobots.Where(r => r.IsAlive).Where(CanSee).Select(GetAsTarget).ToArray();
-            controls.otherRobots = allRobots.Select(r => r.GetAsTarget(r, CanSee(r), IsTeammate(r))).ToArray();
+            controls.otherRobots = allRobots.Where(r => r.AlreadyRegistered(r)).Select(r => r.GetAsTarget(r, CanSee(r), IsTeammate(r))).ToArray();
         }
 
         public SubjectiveRobot GetAsTarget(Robot robot, bool canSee, bool isTeammate)
@@ -93,6 +94,28 @@ namespace AI
                     name = robot.name,
                     id = robot.id
                 };
+            }
+        }
+
+        private bool AlreadyRegistered(Robot robot)
+        {
+            bool newRobot = true;
+            // int identicalPos;
+            for (int i = 0; i < controls.otherRobots.Count(); i++)
+            {
+                if (robot.id == controls.otherRobots[i].id)
+                {
+                    newRobot = false;
+                    controls.otherRobots[i] = GetAsTarget(robot, CanSee(robot), IsTeammate(robot));
+                }
+            }
+            if(newRobot)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
