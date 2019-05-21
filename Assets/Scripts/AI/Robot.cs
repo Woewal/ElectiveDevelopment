@@ -63,14 +63,15 @@ namespace AI
         {
             // This list should be stored somewhere central for better performance! Finding objects is expensive!
             var allRobots = RobotManager.Instance.allRobots;
+            var allPickups = PickupManager.Instance.allPickups;
             // Take the robots that are alive and that we can see and create a target of them
             //controls.visibleTargets = allRobots.Where(r => r.IsAlive).Where(CanSee).Select(GetAsTarget).ToArray();
             controls.updateRobots.Clear();
             // controls.otherRobots = allRobots.Where(r => r.AlreadyRegistered(r)).Select(r => r.GetAsTarget(r, CanSee(r), IsTeammate(r))).ToArray();
-            controls.updateRobots = allRobots.Select(r => r.GetAsTarget(r,CanSee(r),IsTeammate(r))).ToList();
+            controls.updateRobots = allRobots.Select(r => r.GetAsTarget(r,CanSee(r.gameObject),IsTeammate(r))).ToList();
             ArchiveUpdate();
             // controls.archiveRobots = allRobots.Where(r => r.IsTeammate(r)).Where(r => r.CannotSee(r)).Select(r => r.GetAsTarget(r)).ToList();
-
+            // controls.updatePickup = allPickups.Where(p => p.CanSee(p.gameObject)).ToList();
 
         }
 
@@ -161,7 +162,7 @@ namespace AI
             }
         }
 
-
+#region Archived AlreadyRegistered
         /*private bool AlreadyRegistered(Robot robot)
         {
             bool newRobot = true;
@@ -183,8 +184,9 @@ namespace AI
                 return false;
             }
         }*/
+#endregion
 
-        private bool CanSee(Robot target)
+        private bool CanSee(GameObject target)
         {
             RaycastHit hit;
             if (Physics.Raycast(playerMovement.currentRobotPosition, target.transform.position, out hit))

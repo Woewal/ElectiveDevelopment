@@ -45,8 +45,11 @@ namespace AI
         #region Data
         //new Data
         public SubjectiveRobot myself;
+        
         public List<SubjectiveRobot> updateRobots;
         public List<SubjectiveRobot> archiveRobots;
+
+        public List<SubjectiveRobot> updatePickup;
 
         public Target me;
         // public Team team;

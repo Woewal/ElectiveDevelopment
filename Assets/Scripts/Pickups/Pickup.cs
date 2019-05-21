@@ -6,4 +6,5 @@ using UnityEngine;
 public abstract class Pickup : MonoBehaviour
 {
 	abstract public void OnPickup(Player player, PickupHandler pickUpHandler);
+
 }
