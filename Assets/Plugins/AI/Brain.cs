@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace AI
@@ -44,7 +45,8 @@ namespace AI
         #region Data
         //new Data
         public SubjectiveRobot myself;
-        public SubjectiveRobot[] otherRobots;
+        public List<SubjectiveRobot> updateRobots;
+        public List<SubjectiveRobot> archiveRobots;
 
         public Target me;
         // public Team team;

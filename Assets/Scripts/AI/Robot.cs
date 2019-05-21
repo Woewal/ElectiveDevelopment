@@ -51,7 +51,7 @@ namespace AI
 
         private void UpdateData()
         {
-            controls.myself = GetAsTarget(this, true, true);
+            // controls.myself = GetAsTarget(this, true, true);
         }
 
         /// <summary>
@@ -65,10 +65,54 @@ namespace AI
             var allRobots = RobotManager.Instance.allRobots;
             // Take the robots that are alive and that we can see and create a target of them
             //controls.visibleTargets = allRobots.Where(r => r.IsAlive).Where(CanSee).Select(GetAsTarget).ToArray();
-            controls.otherRobots = allRobots.Where(r => r.AlreadyRegistered(r)).Select(r => r.GetAsTarget(r, CanSee(r), IsTeammate(r))).ToArray();
+
+            // controls.otherRobots = allRobots.Where(r => r.AlreadyRegistered(r)).Select(r => r.GetAsTarget(r, CanSee(r), IsTeammate(r))).ToArray();
+            controls.updateRobots = allRobots.Where(r => r.IsTeammate(r)).Where(r => r.CanSee(r)).Select(r => r.GetAsTarget(r)).ToList();
+            
+            // controls.archiveRobots = allRobots.Where(r => r.IsTeammate(r)).Where(r => r.CannotSee(r)).Select(r => r.GetAsTarget(r)).ToList();
+
+            
         }
 
-        public SubjectiveRobot GetAsTarget(Robot robot, bool canSee, bool isTeammate)
+        public void ArchiveUpdate()
+        {
+            foreach (SubjectiveRobot robot in controls.updateRobots)
+            {
+                foreach (SubjectiveRobot archivedRobot in controls.archiveRobots)
+                {
+                    if (archivedRobot.id == robot.id)
+                    {
+                        int archivedRobotIndex = controls.archiveRobots.IndexOf(archivedRobot);
+                        controls.archiveRobots[archivedRobotIndex] = new SubjectiveRobot
+                        {
+                            // (robot.currentPosition != null) ? currentPosition = robot.currentPosition : currentPosition = currentPosition;
+                        };
+                        
+                    }
+                    else
+                    {
+                        // controls.archiveRobots.Add()
+                    }
+                }
+            }
+        }
+
+        public SubjectiveRobot GetAsTarget(Robot robot)
+        {
+            return new SubjectiveRobot
+            {
+                currentPosition = robot.playerMovement.currentRobotPosition,
+                currentHealth = robot.health,
+                lastShootDir = robot.playerAttack.lastShootDirection,
+                isAlive = robot.alive,
+                team = robot.team,
+                name = robot.name,
+                id = robot.id
+            };
+        }
+
+#region Archived GetAsTarget
+        /*public SubjectiveRobot GetAsTarget(Robot robot, bool canSee, bool isTeammate)
         {
             if (canSee || isTeammate)
             {
@@ -95,9 +139,10 @@ namespace AI
                     id = robot.id
                 };
             }
-        }
+        }*/
+#endregion
 
-        private bool AlreadyRegistered(Robot robot)
+        /*private bool AlreadyRegistered(Robot robot)
         {
             bool newRobot = true;
             // int identicalPos;
@@ -117,7 +162,7 @@ namespace AI
             {
                 return false;
             }
-        }
+        }*/
 
         private bool CanSee(Robot target)
         {
@@ -132,6 +177,21 @@ namespace AI
             else
                 return false;
         }
+
+        private bool CannotSee(Robot target)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(playerMovement.currentRobotPosition, target.transform.position, out hit))
+            {
+                if (hit.transform.gameObject == target.gameObject)
+                    return false;
+                else
+                    return true;
+            }
+            else
+                return true;
+        }
+
         private bool IsTeammate(Robot target)
         {
             if (team == target.team)
