@@ -65,13 +65,13 @@ namespace AI
             var allRobots = RobotManager.Instance.allRobots;
             // Take the robots that are alive and that we can see and create a target of them
             //controls.visibleTargets = allRobots.Where(r => r.IsAlive).Where(CanSee).Select(GetAsTarget).ToArray();
-
+            controls.updateRobots.Clear();
             // controls.otherRobots = allRobots.Where(r => r.AlreadyRegistered(r)).Select(r => r.GetAsTarget(r, CanSee(r), IsTeammate(r))).ToArray();
-            controls.updateRobots = allRobots.Where(r => r.IsTeammate(r)).Where(r => r.CanSee(r)).Select(r => r.GetAsTarget(r)).ToList();
-            
+            controls.updateRobots = allRobots.Select(r => r.GetAsTarget(r,CanSee(r),IsTeammate(r))).ToList();
+            ArchiveUpdate();
             // controls.archiveRobots = allRobots.Where(r => r.IsTeammate(r)).Where(r => r.CannotSee(r)).Select(r => r.GetAsTarget(r)).ToList();
 
-            
+
         }
 
         public void ArchiveUpdate()
@@ -83,21 +83,41 @@ namespace AI
                     if (archivedRobot.id == robot.id)
                     {
                         int archivedRobotIndex = controls.archiveRobots.IndexOf(archivedRobot);
+                        Vector3 currentPositionVar = controls.archiveRobots[archivedRobotIndex].currentPosition;
+                        Vector3 lastShootDirVar = controls.archiveRobots[archivedRobotIndex].lastShootDir;
+                        if (robot.currentPosition != null)
+                        {
+                            currentPositionVar = robot.currentPosition;
+                        }
+                        if (robot.lastShootDir != null)
+                        {
+                            lastShootDirVar = robot.lastShootDir;
+                        }
                         controls.archiveRobots[archivedRobotIndex] = new SubjectiveRobot
                         {
-                            // (robot.currentPosition != null) ? currentPosition = robot.currentPosition : currentPosition = currentPosition;
+                            currentPosition = currentPositionVar,
+                            currentHealth = robot.currentHealth,
+                            lastShootDir = lastShootDirVar,
+                            isAlive = robot.isAlive,
                         };
-                        
                     }
                     else
                     {
-                        // controls.archiveRobots.Add()
+                        controls.archiveRobots.Add(new SubjectiveRobot
+                        {
+                            currentPosition = robot.currentPosition,
+                            currentHealth = robot.currentHealth,
+                            lastShootDir = robot.lastShootDir,
+                            isAlive = robot.isAlive,
+                            team = robot.team,
+                            id = robot.id
+                        });
                     }
                 }
             }
         }
-
-        public SubjectiveRobot GetAsTarget(Robot robot)
+#region Archived GetAsTarget
+        /*public SubjectiveRobot GetAsTarget(Robot robot)
         {
             return new SubjectiveRobot
             {
@@ -109,10 +129,10 @@ namespace AI
                 name = robot.name,
                 id = robot.id
             };
-        }
+        }*/
+#endregion
 
-#region Archived GetAsTarget
-        /*public SubjectiveRobot GetAsTarget(Robot robot, bool canSee, bool isTeammate)
+        public SubjectiveRobot GetAsTarget(Robot robot, bool canSee, bool isTeammate)
         {
             if (canSee || isTeammate)
             {
@@ -139,8 +159,8 @@ namespace AI
                     id = robot.id
                 };
             }
-        }*/
-#endregion
+        }
+
 
         /*private bool AlreadyRegistered(Robot robot)
         {
@@ -176,20 +196,6 @@ namespace AI
             }
             else
                 return false;
-        }
-
-        private bool CannotSee(Robot target)
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(playerMovement.currentRobotPosition, target.transform.position, out hit))
-            {
-                if (hit.transform.gameObject == target.gameObject)
-                    return false;
-                else
-                    return true;
-            }
-            else
-                return true;
         }
 
         private bool IsTeammate(Robot target)
