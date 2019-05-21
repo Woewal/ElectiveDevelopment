@@ -11,6 +11,7 @@ namespace AI
         public bool alive;
         public Team team;
     }
+
     public struct SubjectiveRobot
     {
         public Vector3 currentPosition;
@@ -21,6 +22,13 @@ namespace AI
         public Team team;
         public String name;
         public int id;
+    }
+
+    public struct SubjectivePickup
+    {
+        public Vector3 currentPickupPosition;
+        // public Pickup ofType;
+        public bool isSeen;
     }
 
     public struct RobotControls
