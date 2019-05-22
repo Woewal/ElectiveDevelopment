@@ -12,7 +12,11 @@ public class Ball : Pickup
 	Player _ignoredPlayer;
 	float _timeUntilPoint = 1;
 
-	void Update()
+    private void Start()
+    {
+        BallManager.Instance.Register(this.gameObject);
+    }
+    void Update()
 	{
 		if (AssignedPlayer == null) return;
 

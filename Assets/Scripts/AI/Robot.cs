@@ -26,7 +26,6 @@ namespace AI
         {
             IsAlive = true;
             RobotManager.Instance.Register(this);
-
             // Set up the controls - what doesn't change?
 
             //controls.team = Team.blue;
@@ -62,12 +61,13 @@ namespace AI
         private void UpdateTargets()
         {
             // This list should be stored somewhere central for better performance! Finding objects is expensive!
-            var allRobots = RobotManager.Instance.allRobots;
-            var allPickups = PickupManager.Instance.allPickups;
             // Take the robots that are alive and that we can see and create a target of them
             //controls.visibleTargets = allRobots.Where(r => r.IsAlive).Where(CanSee).Select(GetAsTarget).ToArray();
-            controls.updateRobots.Clear();
             // controls.otherRobots = allRobots.Where(r => r.AlreadyRegistered(r)).Select(r => r.GetAsTarget(r, CanSee(r), IsTeammate(r))).ToArray();
+            var allRobots = RobotManager.Instance.allRobots;
+            var allPickups = PickupManager.Instance.allPickups;
+            controls.updateBall = BallManager.Instance.ballTransform.position;
+            controls.updateRobots.Clear();
             controls.updateRobots = allRobots.Select(r => r.GetAsTarget(r,CanSee(r.gameObject),IsTeammate(r))).ToList();
             ArchiveUpdate();
             // controls.archiveRobots = allRobots.Where(r => r.IsTeammate(r)).Where(r => r.CannotSee(r)).Select(r => r.GetAsTarget(r)).ToList();
