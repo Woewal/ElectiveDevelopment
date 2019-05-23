@@ -14,7 +14,8 @@ namespace AI
         public int health;
         public float speed;
         public int damage;
-        public Team team;
+        //public Team team;
+        public int team;
         public bool alive;
         public int id;
 
@@ -209,7 +210,22 @@ namespace AI
         }
 
         #endregion
+        #region Actions with robot
+        public void DealDamage(int dmg)
+        {
+            health -= dmg;
+            CheckStatus();
+        }
 
+        private void CheckStatus()
+        {
+            if(health<=0)
+            {
+                IsAlive = false;
+                //Some on death action
+            }
+        }
+        #endregion
         #region Control methods
 
         void PassBall(Vector3 _target)
@@ -224,7 +240,7 @@ namespace AI
 
         private void GoTo(Vector3 _position)
         {
-            playerMovement.SetDestination(_position);
+            playerMovement.MoveTowards(_position);
         }
 
         #endregion

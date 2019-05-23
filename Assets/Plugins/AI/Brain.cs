@@ -20,7 +20,8 @@ namespace AI
         public bool isAlive;
         public bool isSeen;
         public Vector3 lastShootDir;
-        public Team team;
+        //public Team team;
+        public int team;
         public String name;
         public int id;
     }
