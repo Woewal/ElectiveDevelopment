@@ -27,18 +27,8 @@ public class PickupHandler : MonoBehaviour
 			Ball = (Ball)pickup;
 		}
 	}
-
-	private void Update()
-	{
-		if(Input.GetKeyDown(KeyCode.Space))
-		{
-			if (Ball == null) return;
-
-			Ball.Pass(transform.position + new Vector3(0, 0, 5));
-		}
-	}
-
-	private void OnDrawGizmosSelected()
+	
+	void OnDrawGizmosSelected()
 	{
 		Gizmos.DrawWireSphere(transform.position + ObjectHoldPosition, .1f);
 	}

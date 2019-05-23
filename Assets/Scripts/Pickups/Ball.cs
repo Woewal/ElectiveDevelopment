@@ -6,8 +6,9 @@ using UnityEngine;
 public class Ball : Pickup
 {
 	[HideInInspector] public Player AssignedPlayer;
-
+	[SerializeField] AnimationCurve _travelCurve;
 	[SerializeField] float _travelSpeed;
+	[SerializeField] float _maxHeight;
 
 	Player _ignoredPlayer;
 	float _timeUntilPoint = 1;
@@ -61,7 +62,9 @@ public class Ball : Pickup
 
 		while (distanceTraveled < magnitude)
 		{
-			transform.position = startingPos + relativePos.normalized * (magnitude * (distanceTraveled / magnitude));
+
+			transform.position = startingPos + relativePos.normalized * (magnitude * (distanceTraveled / magnitude))
+				+ Vector3.up * _travelCurve.Evaluate(distanceTraveled/magnitude) * _maxHeight;
 			distanceTraveled += Time.deltaTime * _travelSpeed;
 			yield return null;
 		}
