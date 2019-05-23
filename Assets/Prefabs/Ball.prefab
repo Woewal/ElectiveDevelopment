@@ -135,5 +135,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d43ac3274f0b86e44a0f08f19988229c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PickupType: 0
   AssignedPlayer: {fileID: 0}
+  _travelCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _travelSpeed: 10
+  _maxHeight: 2
