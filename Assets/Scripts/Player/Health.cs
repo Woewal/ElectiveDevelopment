@@ -12,7 +12,6 @@ public class Health : MonoBehaviour
     void Start()
     {
         CurrentHP = MaxHP;
-        
     }
 
     private void takeDamage(float damage)
