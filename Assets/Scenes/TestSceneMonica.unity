@@ -536,13 +536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5f745e0366f22d4dae89470434afcf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redText: {fileID: 798439956}
-  blueText: {fileID: 1329650802}
-  scoreCountRed: 0
-  scoreCountBlue: 0
-  pointsPerSecond: 2
-  scoreIncreasingRed: 0
-  scoreIncreasingBlue: 0
 --- !u!1 &1286726269
 GameObject:
   m_ObjectHideFlags: 0
@@ -1269,3 +1262,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750e7e9317846024abc752946bf4a38d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2033119262
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2033119265}
+  - component: {fileID: 2033119264}
+  - component: {fileID: 2033119263}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2033119263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033119262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8952c38d20bba4dad11edc35830a2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxCount: 3
+  count: 0
+  PickupArray:
+  - {fileID: 5407061422643295421, guid: 064899c6396a9f74dbdbedcedc39bfbb, type: 3}
+  timer: 30
+--- !u!114 &2033119264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033119262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eeb479cb40d9a7438ae9cabded82d61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2033119265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033119262}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.036853313, y: 2.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
