@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace AI
@@ -12,6 +13,26 @@ namespace AI
         public Team team;
     }
 
+    public struct SubjectiveRobot
+    {
+        public Vector3 currentPosition;
+        public float currentHealth;
+        public bool isAlive;
+        public bool isSeen;
+        public Vector3 lastShootDir;
+        //public Team team;
+        public int team;
+        public String name;
+        public int id;
+    }
+
+    public struct SubjectivePickup
+    {
+        public Vector3 currentPickupPosition;
+        // public Pickup ofType;
+        public bool isSeen;
+    }
+
     public struct RobotControls
     {
         #region Actions
@@ -23,6 +44,14 @@ namespace AI
         #endregion
 
         #region Data
+        //new Data
+        public SubjectiveRobot myself;
+        public Vector3 updateBall;
+
+        public List<SubjectiveRobot> updateRobots;
+        public List<SubjectiveRobot> archiveRobots;
+
+        public List<SubjectivePickup> updatePickup;
 
         public Target me;
         // public Team team;
