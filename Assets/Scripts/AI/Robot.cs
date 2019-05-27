@@ -27,7 +27,7 @@ namespace AI
         {
             IsAlive = true;
             RobotManager.Instance.Register(this);
-          
+           
             // Set up the controls - what doesn't change?
 
             //controls.team = Team.blue;

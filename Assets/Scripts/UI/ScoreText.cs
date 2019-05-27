@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using AI;
 
 public class ScoreText : MonoBehaviour
 {
-    public void Start()
+    public Text redText;
+    public Text blueText;
+
+    void Start()
     {
-        var text = GetComponent<Text>();
-        ScoreManager.Instance.onRobotScored.AddListener((team, points) =>
+        ScoreManager.Instance.OnScore += () =>
         {
-            text.text = $"{team.name}: {points}";
-        });
+            redText.text = $"1: {ScoreManager.Instance.TeamPoints[1]}";
+            blueText.text = $"2: {ScoreManager.Instance.TeamPoints[2]}";
+        };
     }
 }
