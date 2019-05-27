@@ -8,12 +8,18 @@ public class AIName : Brain
     public override void Initialize(RobotControls controls)
     {
         Debug.Log($"AIRando awoke at {controls.me.position}. Ready to rumble.");
-        controls.goTo(new Vector3(10, 0, 20));
+        //controls.goTo(new Vector3(10, 0, 20));
     }
 
     public override void UpdateControls(RobotControls controls)
     {
-        Debug.Log($"I can see {controls.visibleTargets.Length} targets.");
+        string test = $"Id: {controls.myself.id} I can see: ";
+
+        foreach(var robot in controls.archiveRobots)
+        {
+            test += $"{robot.id} ";
+        }
+        Debug.Log(test);
     }
 
     public override void OnTargetReached(RobotControls controls)

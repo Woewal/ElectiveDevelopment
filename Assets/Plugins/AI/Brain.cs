@@ -22,7 +22,6 @@ namespace AI
         public Vector3 lastShootDir;
         //public Team team;
         public int team;
-        public String name;
         public int id;
     }
 
@@ -48,6 +47,7 @@ namespace AI
         public Vector3 updateBall;
 
         public List<SubjectiveRobot> updateRobots;
+        //public List<SubjectiveRobot> archiveRobots;
         public List<SubjectiveRobot> archiveRobots;
 
         public List<SubjectivePickup> updatePickup;

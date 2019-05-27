@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[CreateAssetMenu]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
@@ -25,13 +24,15 @@ public class PlayerMovement : MonoBehaviour
     {
         lastDestination = _target;
         navMeshAgent.SetDestination(lastDestination);
+        Debug.Log(navMeshAgent);
+        Debug.Log(lastDestination);
     }
     // Update is called once per frame
     void Update()
     {
         currentRobotPosition = robotTransform.position;
         //this is a testing input update, it needs to be deleted later;
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             MoveTowards(testDestination.position);
         }

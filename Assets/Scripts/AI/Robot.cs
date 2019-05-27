@@ -20,14 +20,43 @@ namespace AI
         public int id;
 
         List<RobotListElement> listOfRobots = new List<RobotListElement>();
+        Dictionary<Robot, SubjectiveRobot> robotInformation = new Dictionary<Robot, SubjectiveRobot>();
 
         public bool IsAlive { get; private set; }
 
         public void Start()
         {
-            IsAlive = true;
             RobotManager.Instance.Register(this);
-           
+            RobotManager.Instance.OnRobotAdded += (robot) =>
+            {
+                if(robot != this)
+                {
+                    controls.archiveRobots.Add(new SubjectiveRobot()
+                    {
+                        id = robot.id,
+                        team = robot.team,
+                    });
+                }
+            };
+
+            IsAlive = true;
+            
+            //controls.updateRobots = new List<SubjectiveRobot>();
+            controls.archiveRobots = new List<SubjectiveRobot>();
+            UpdateData();
+
+            var allRobots = RobotManager.Instance.allRobots;
+            foreach (var robot in allRobots)
+            {
+                if (robot == this) continue;
+                controls.archiveRobots.Add(new SubjectiveRobot()
+                {
+                    id = robot.id,
+                    team = robot.team,
+                });
+            }
+
+
             // Set up the controls - what doesn't change?
 
             //controls.team = Team.blue;
@@ -39,22 +68,42 @@ namespace AI
             // Initialize brain
             brain.Initialize(controls);
         }
-        
-
 
         #region Refreshing brain
 
-        public void Update()
+        void Update()
         {
+            for(int i = 0; i < controls.archiveRobots.Count; i++)
+            {
+                var information = controls.archiveRobots[i];
+                var robot = RobotManager.Instance.allRobots.Where(x => x.id == information.id).First();
+                if(CanSee(robot.gameObject)||IsTeammate(robot))
+                {
+                    information.currentHealth = robot.health;
+                    information.currentPosition = robot.playerMovement.currentRobotPosition;
+                    information.isAlive = robot.alive;
+                    information.lastShootDir = robot.playerAttack.lastShootDirection;
+                    information.isSeen = true;
+                }
+                else 
+                {
+                    information.isSeen = false;
+                }
+            }
+
+
             // Update controls and brain
-            UpdateData();
-            UpdateTargets();
+
+            //UpdateTargets();
+            //ArchiveUpdate();
+            //controls.updateRobots.Clear();
             brain.UpdateControls(controls);
+            Debug.Log(id);
         }
 
         private void UpdateData()
         {
-            // controls.myself = RobotToSubjectiveRobot(this, true, true);
+            controls.myself = RobotToSubjectiveRobot(this, true, true);
         }
 
         /// <summary>
@@ -71,9 +120,8 @@ namespace AI
             var allRobots = RobotManager.Instance.allRobots;
             var allPickups = PickupManager.Instance.allPickups;
             controls.updateBall = BallManager.Instance.ballTransform.position;
-            controls.updateRobots.Clear();
-            controls.updateRobots = allRobots.Select(r => r.RobotToSubjectiveRobot(r,CanSee(r.gameObject),IsTeammate(r))).ToList();
-            ArchiveUpdate();
+            controls.updateRobots = allRobots.Select(r => r.RobotToSubjectiveRobot(r,true,true)).ToList();
+
             // controls.archiveRobots = allRobots.Where(r => r.IsTeammate(r)).Where(r => r.CannotSee(r)).Select(r => r.RobotToSubjectiveRobot(r)).ToList();
             controls.updatePickup = allPickups.Where(p => p.CanSee(this.gameObject)).Select(p => p.PickupToSubjectivePickup(p)).ToList();
 
@@ -83,28 +131,50 @@ namespace AI
         {
             foreach (SubjectiveRobot robot in controls.updateRobots)
             {
-                foreach (SubjectiveRobot archivedRobot in controls.archiveRobots)
+                if (robot.id != this.id)
                 {
-                    if (archivedRobot.id == robot.id)
+
+                    if (controls.archiveRobots.Any())
                     {
-                        int archivedRobotIndex = controls.archiveRobots.IndexOf(archivedRobot);
-                        Vector3 currentPositionVar = controls.archiveRobots[archivedRobotIndex].currentPosition;
-                        Vector3 lastShootDirVar = controls.archiveRobots[archivedRobotIndex].lastShootDir;
-                        if (robot.currentPosition != null)
+                        var archivedRobots = controls.archiveRobots.Where(x => x.id == robot.id);
+                        if (archivedRobots.Any())
                         {
-                            currentPositionVar = robot.currentPosition;
+                            var archivedRobot = archivedRobots.First();
+                            if (controls.archiveRobots.Contains(archivedRobot))
+                            {
+                                int archivedRobotIndex = controls.archiveRobots.IndexOf(archivedRobot);
+                                Vector3 currentPositionVar = controls.archiveRobots[archivedRobotIndex].currentPosition;
+                                Vector3 lastShootDirVar = controls.archiveRobots[archivedRobotIndex].lastShootDir;
+                                if (robot.currentPosition != null)
+                                {
+                                    currentPositionVar = robot.currentPosition;
+                                }
+                                if (robot.lastShootDir != null)
+                                {
+                                    lastShootDirVar = robot.lastShootDir;
+                                }
+                                controls.archiveRobots[archivedRobotIndex] = new SubjectiveRobot
+                                {
+                                    currentPosition = currentPositionVar,
+                                    currentHealth = robot.currentHealth,
+                                    lastShootDir = lastShootDirVar,
+                                    isAlive = robot.isAlive,
+                                };
+                            }
+                            else
+                            {
+                                controls.archiveRobots.Add(new SubjectiveRobot
+                                {
+                                    currentPosition = robot.currentPosition,
+                                    currentHealth = robot.currentHealth,
+                                    lastShootDir = robot.lastShootDir,
+                                    isAlive = robot.isAlive,
+                                    team = robot.team,
+                                    id = robot.id
+                                });
+                            }
                         }
-                        if (robot.lastShootDir != null)
-                        {
-                            lastShootDirVar = robot.lastShootDir;
-                        }
-                        controls.archiveRobots[archivedRobotIndex] = new SubjectiveRobot
-                        {
-                            currentPosition = currentPositionVar,
-                            currentHealth = robot.currentHealth,
-                            lastShootDir = lastShootDirVar,
-                            isAlive = robot.isAlive,
-                        };
+
                     }
                     else
                     {
@@ -132,7 +202,6 @@ namespace AI
                 lastShootDir = robot.playerAttack.lastShootDirection,
                 isAlive = robot.alive,
                 team = robot.team,
-                name = robot.name,
                 id = robot.id
             };
         }*/
@@ -150,7 +219,6 @@ namespace AI
                     isAlive = robot.alive,
                     isSeen = canSee,
                     team = robot.team,
-                    name = robot.name,
                     id = robot.id
                 };
             
@@ -161,7 +229,6 @@ namespace AI
                 {
                     isSeen = canSee,
                     team = robot.team,
-                    name = robot.name,
                     id = robot.id
                 };
             }
