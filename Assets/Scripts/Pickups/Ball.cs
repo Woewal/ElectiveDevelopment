@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using AI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,7 +26,7 @@ public class Ball : Pickup
 
 		if(_timeUntilPoint < 0)
 		{
-			//TODO add point;
+            ScoreManager.Instance.OnScored(AssignedPlayer.GetComponent<Robot>(), 1);
 			_timeUntilPoint = 1;
 		}
 	}
