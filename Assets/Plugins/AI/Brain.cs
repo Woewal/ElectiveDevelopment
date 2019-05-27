@@ -29,8 +29,7 @@ namespace AI
     public struct SubjectivePickup
     {
         public Vector3 currentPickupPosition;
-        // public Pickup ofType;
-        public bool isSeen;
+        public string ofType;
     }
 
     public struct RobotControls
