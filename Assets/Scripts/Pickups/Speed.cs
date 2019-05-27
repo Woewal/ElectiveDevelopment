@@ -7,7 +7,7 @@ public class Speed : Pickup
 	public float Duration;
 	public float Amount;
 
-	public override void OnPickup(Player player, PickupHandler pickUpHandler)
+	protected override void PickUp(Player player, PickupHandler pickUpHandler)
 	{
 		player.GetComponent<PlayerMovement>().IncreaseSpeed(Amount, Duration);
 	}

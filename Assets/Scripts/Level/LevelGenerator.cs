@@ -15,7 +15,7 @@ public class LevelGenerator : MonoBehaviour
 		{
 			var randomValue = Random.value;
 
-			if (randomValue < _spawnChance)
+			if (randomValue < 1 - _spawnChance)
 				wall.SetActive(false);
 		}
 	}

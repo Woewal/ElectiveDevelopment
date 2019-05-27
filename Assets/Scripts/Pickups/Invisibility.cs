@@ -6,7 +6,7 @@ public class Invisibility : Pickup
 {
 	public float Duration;
 
-	public override void OnPickup(Player player, PickupHandler pickUpHandler)
+	protected override void PickUp(Player player, PickupHandler pickUpHandler)
 	{
 		player.GetComponent<Health>().GainInvisisbility(Duration);
 	}

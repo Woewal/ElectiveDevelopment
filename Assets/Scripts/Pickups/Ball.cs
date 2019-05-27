@@ -30,7 +30,7 @@ public class Ball : Pickup
 		}
 	}
 
-	public override void OnPickup(Player player, PickupHandler pickupHandler)
+	protected override void PickUp(Player player, PickupHandler pickupHandler)
 	{
 		if (player == _ignoredPlayer) return;
 

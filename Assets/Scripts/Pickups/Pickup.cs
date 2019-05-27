@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,21 @@ public abstract class Pickup : MonoBehaviour
 
 	public Type PickupType;
 
-	abstract public void OnPickup(Player player, PickupHandler pickUpHandler);
+	public bool RespawnOnPickup;
+
+	public Action<Player, PickupHandler> OnPickup = delegate { };
+
+	void Awake()
+	{
+		OnPickup += (player, pickupHandler) =>
+		{
+			gameObject.SetActive(false);
+			Spawner.Instance.Respawn(gameObject);
+		};
+		OnPickup += PickUp;
+	}
+
+	protected abstract void PickUp(Player player, PickupHandler pickupHandler);
 
 	// private bool CanSee(GameObject target)
 	// {
