@@ -294,6 +294,75 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1001 &459874055
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 9047350955172807547, guid: fcb0c93b471e5864b946fb8c5869c771,
+        type: 3}
+      propertyPath: m_Name
+      value: Managers
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047350955172807548, guid: fcb0c93b471e5864b946fb8c5869c771,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.374253
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047350955172807548, guid: fcb0c93b471e5864b946fb8c5869c771,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.391954
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047350955172807548, guid: fcb0c93b471e5864b946fb8c5869c771,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.6476755
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047350955172807548, guid: fcb0c93b471e5864b946fb8c5869c771,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047350955172807548, guid: fcb0c93b471e5864b946fb8c5869c771,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047350955172807548, guid: fcb0c93b471e5864b946fb8c5869c771,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047350955172807548, guid: fcb0c93b471e5864b946fb8c5869c771,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047350955172807548, guid: fcb0c93b471e5864b946fb8c5869c771,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047350955172807548, guid: fcb0c93b471e5864b946fb8c5869c771,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047350955172807548, guid: fcb0c93b471e5864b946fb8c5869c771,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047350955172807548, guid: fcb0c93b471e5864b946fb8c5869c771,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fcb0c93b471e5864b946fb8c5869c771, type: 3}
 --- !u!1001 &2005303481
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -361,5 +430,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1265764388141862241, guid: 6239320996979aa40b9e37937d7e6bda,
+        type: 3}
+      propertyPath: _spawnChance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661645012786459251, guid: 6239320996979aa40b9e37937d7e6bda,
+        type: 3}
+      propertyPath: RobotPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 4200300825509291955, guid: 660de87fa1ae3994ba1193fc2521dfe1,
+        type: 3}
+    - target: {fileID: 6661645012786459251, guid: 6239320996979aa40b9e37937d7e6bda,
+        type: 3}
+      propertyPath: RobotPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 4200300825509291955, guid: 660de87fa1ae3994ba1193fc2521dfe1,
+        type: 3}
+    - target: {fileID: 6661645012786459251, guid: 6239320996979aa40b9e37937d7e6bda,
+        type: 3}
+      propertyPath: RobotPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 4200300825509291955, guid: 660de87fa1ae3994ba1193fc2521dfe1,
+        type: 3}
+    - target: {fileID: 6661645012786459251, guid: 6239320996979aa40b9e37937d7e6bda,
+        type: 3}
+      propertyPath: RobotPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 4200300825509291955, guid: 660de87fa1ae3994ba1193fc2521dfe1,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6239320996979aa40b9e37937d7e6bda, type: 3}

@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    [SerializeField]
-    Transform testTarget;
 
     [SerializeField]
     GameObject projectile;
@@ -45,10 +43,6 @@ public class PlayerAttack : MonoBehaviour
         if(coolDownVariable > 0)
         {
             coolDownVariable -= Time.deltaTime;
-        }
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            Shoot(testTarget.position);
         }
     }
 

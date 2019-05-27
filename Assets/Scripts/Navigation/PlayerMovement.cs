@@ -5,8 +5,6 @@ using UnityEngine.AI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField]
-    Transform testDestination;
 
     public Vector3 lastDestination;
     private NavMeshAgent navMeshAgent;
@@ -31,11 +29,6 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         currentRobotPosition = robotTransform.position;
-        //this is a testing input update, it needs to be deleted later;
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            MoveTowards(testDestination.position);
-        }
     }
 
 	public void IncreaseSpeed(float amount, float duration)

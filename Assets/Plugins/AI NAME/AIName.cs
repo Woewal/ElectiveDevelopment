@@ -17,7 +17,8 @@ public class AIName : Brain
 
         foreach(var robot in controls.archiveRobots)
         {
-            test += $"{robot.id} ";
+            if(robot.isSeen)
+                test += $"{robot.id} ";
         }
         Debug.Log(test);
     }

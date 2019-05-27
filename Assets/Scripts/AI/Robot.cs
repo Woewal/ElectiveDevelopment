@@ -39,6 +39,8 @@ namespace AI
                 }
             };
 
+            name = $"Robot: {id}";
+
             IsAlive = true;
             
             //controls.updateRobots = new List<SubjectiveRobot>();
@@ -77,7 +79,7 @@ namespace AI
             {
                 var information = controls.archiveRobots[i];
                 var robot = RobotManager.Instance.allRobots.Where(x => x.id == information.id).First();
-                if(CanSee(robot.gameObject)||IsTeammate(robot))
+                if(CanSee(robot.gameObject))
                 {
                     information.currentHealth = robot.health;
                     information.currentPosition = robot.playerMovement.currentRobotPosition;
@@ -89,6 +91,7 @@ namespace AI
                 {
                     information.isSeen = false;
                 }
+                controls.archiveRobots[i] = information;
             }
 
 
@@ -261,12 +264,19 @@ namespace AI
         private bool CanSee(GameObject target)
         {
             RaycastHit hit;
-            if (Physics.Raycast(playerMovement.currentRobotPosition, target.transform.position, out hit))
+
+            var relativePosition = (target.transform.position + Vector3.up * 0.5f) - (transform.position + Vector3.up * 0.5f);
+
+            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, relativePosition, out hit))
             {
-                if (hit.transform.gameObject == target.gameObject)
+                if (hit.transform.gameObject == target)
+                {
+                    Debug.Log("I seeee you");
                     return true;
-                else
-                    return false;
+                }
+
+                return false;
+ 
             }
             else
                 return false;
@@ -312,6 +322,15 @@ namespace AI
         private void GoTo(Vector3 _position)
         {
             playerMovement.MoveTowards(_position);
+        }
+
+        private void OnDrawGizmos()
+        {
+            foreach (var robot in RobotManager.Instance.allRobots)
+            {
+                Gizmos.DrawLine(transform.position + Vector3.up * 0.5f, robot.transform.position + Vector3.up * 0.5f);
+            }
+            
         }
 
         #endregion
