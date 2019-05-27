@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AI;
 
 //D
 public abstract class Pickup : MonoBehaviour
@@ -16,28 +17,39 @@ public abstract class Pickup : MonoBehaviour
 
 	void Awake()
 	{
-		OnPickup += (player, pickupHandler) =>
+		if(RespawnOnPickup)
 		{
-			gameObject.SetActive(false);
-			Spawner.Instance.Respawn(gameObject);
-		};
+			OnPickup += (player, pickupHandler) =>
+			{
+				gameObject.SetActive(false);
+				Spawner.Instance.Respawn(gameObject);
+			};
+		}
 		OnPickup += PickUp;
 	}
 
 	protected abstract void PickUp(Player player, PickupHandler pickupHandler);
 
-	// private bool CanSee(GameObject target)
-	// {
-	// 	RaycastHit hit;
-	// 	if (Physics.Raycast(playerMovement.currentRobotPosition, target.transform.position, out hit))
-	// 	{
-	// 		if (hit.transform.gameObject == target.gameObject)
-	// 			return true;
-	// 		else
-	// 			return false;
-	// 	}
-	// 	else
-	// 		return false;
-	// }
+	public bool CanSee(GameObject target)
+	{
+		RaycastHit hit;
+		if (Physics.Raycast(this.transform.position, target.transform.position, out hit))
+		{
+			if (hit.transform.gameObject == target.gameObject)
+				return true;
+			else
+				return false;
+		}
+		else
+			return false;
+	}
 
+	public SubjectivePickup PickupToSubjectivePickup(Pickup pickup)
+	{
+		return new SubjectivePickup
+		{
+        currentPickupPosition = pickup.transform.position,
+        ofType = pickup.PickupType.ToString()
+		};
+	}
 }

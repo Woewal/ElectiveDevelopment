@@ -136,4 +136,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PickupType: 3
+  RespawnOnPickup: 1
   Duration: 5
