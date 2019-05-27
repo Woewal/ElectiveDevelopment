@@ -19,9 +19,6 @@ namespace AI
         public bool alive;
         public int id;
 
-        List<RobotListElement> listOfRobots = new List<RobotListElement>();
-        Dictionary<Robot, SubjectiveRobot> robotInformation = new Dictionary<Robot, SubjectiveRobot>();
-
         public bool IsAlive { get; private set; }
 
         public void Start()
@@ -71,8 +68,6 @@ namespace AI
             brain.Initialize(controls);
         }
 
-        #region Refreshing brain
-
         void Update()
         {
             for(int i = 0; i < controls.archiveRobots.Count; i++)
@@ -93,8 +88,6 @@ namespace AI
                 }
                 controls.archiveRobots[i] = information;
             }
-
-
             // Update controls and brain
 
             //UpdateTargets();
@@ -109,28 +102,154 @@ namespace AI
             controls.myself = RobotToSubjectiveRobot(this, true, true);
         }
 
+        public SubjectiveRobot RobotToSubjectiveRobot(Robot robot, bool canSee, bool isTeammate)
+        {
+            if (canSee || isTeammate)
+            {
+                return new SubjectiveRobot
+                {
+                    currentPosition = robot.playerMovement.currentRobotPosition,
+                    currentHealth = robot.health,
+                    lastShootDir = robot.playerAttack.lastShootDirection,
+                    isAlive = robot.alive,
+                    isSeen = canSee,
+                    team = robot.team,
+                    id = robot.id
+                };
+            
+            }
+            else
+            {
+                return new SubjectiveRobot
+                {
+                    isSeen = canSee,
+                    team = robot.team,
+                    id = robot.id
+                };
+            }
+        }
+
+        private bool CanSee(GameObject target)
+        {
+            RaycastHit hit;
+
+            var relativePosition = (target.transform.position + Vector3.up * 0.5f) - (transform.position + Vector3.up * 0.5f);
+
+            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, relativePosition, out hit))
+            {
+                if (hit.transform.gameObject == target)
+                {
+                    Debug.Log("I seeee you");
+                    return true;
+                }
+
+                return false;
+ 
+            }
+            else
+                return false;
+        }
+
+    #region Actions with robot
+
+        public void DealDamage(int dmg)
+        {
+            health -= dmg;
+            CheckStatus();
+        }
+
+        private void CheckStatus()
+        {
+            if(health<=0)
+            {
+                IsAlive = false;
+                //Some on death action
+            }
+        }
+
+    #endregion
+
+    #region Control methods
+
+        void PassBall(Vector3 _target)
+        {
+            
+        }
+
+        void Attack(Vector3 _target)
+        {
+            playerAttack.Shoot(_target);
+        }
+
+        private void GoTo(Vector3 _position)
+        {
+            playerMovement.MoveTowards(_position);
+        }
+
+        private void OnDrawGizmos()
+        {
+            foreach (var robot in RobotManager.Instance.allRobots)
+            {
+                Gizmos.DrawLine(transform.position + Vector3.up * 0.5f, robot.transform.position + Vector3.up * 0.5f);
+            }
+            
+        }
+
+    #endregion
+
+    #region Obsolete Code
+
+        /*private bool AlreadyRegistered(Robot robot)
+        {
+            bool newRobot = true;
+            // int identicalPos;
+            for (int i = 0; i < controls.otherRobots.Count(); i++)
+            {
+                if (robot.id == controls.otherRobots[i].id)
+                {
+                    newRobot = false;
+                    controls.otherRobots[i] = RobotToSubjectiveRobot(robot, CanSee(robot), IsTeammate(robot));
+                }
+            }
+            if(newRobot)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }*/
+
+        /*private bool IsTeammate(Robot target)
+        {
+            if (team == target.team)
+                return true;          
+            else
+                return false;
+        }*/
+
         /// <summary>
         /// Maybe this should not be checked every frame, for performance.
         /// Raycasting is expensive!
         /// Creating arrays creates garbage! 
         /// </summary>
-        private void UpdateTargets()
+        /*private void UpdateTargets()
         {
             // This list should be stored somewhere central for better performance! Finding objects is expensive!
             // Take the robots that are alive and that we can see and create a target of them
             //controls.visibleTargets = allRobots.Where(r => r.IsAlive).Where(CanSee).Select(RobotToSubjectiveRobot).ToArray();
             // controls.otherRobots = allRobots.Where(r => r.AlreadyRegistered(r)).Select(r => r.RobotToSubjectiveRobot(r, CanSee(r), IsTeammate(r))).ToArray();
+            // controls.archiveRobots = allRobots.Where(r => r.IsTeammate(r)).Where(r => r.CannotSee(r)).Select(r => r.RobotToSubjectiveRobot(r)).ToList();
+            
             var allRobots = RobotManager.Instance.allRobots;
             var allPickups = PickupManager.Instance.allPickups;
             controls.updateBall = BallManager.Instance.ballTransform.position;
             controls.updateRobots = allRobots.Select(r => r.RobotToSubjectiveRobot(r,true,true)).ToList();
-
-            // controls.archiveRobots = allRobots.Where(r => r.IsTeammate(r)).Where(r => r.CannotSee(r)).Select(r => r.RobotToSubjectiveRobot(r)).ToList();
             controls.updatePickup = allPickups.Where(p => p.CanSee(this.gameObject)).Select(p => p.PickupToSubjectivePickup(p)).ToList();
+        }*/
 
-        }
-
-        public void ArchiveUpdate()
+        /*public void ArchiveUpdate()
         {
             foreach (SubjectiveRobot robot in controls.updateRobots)
             {
@@ -193,9 +312,8 @@ namespace AI
                     }
                 }
             }
-        }
+        }*/
         
-#region Archived RobotToSubjectiveRobot
         /*public SubjectiveRobot RobotToSubjectiveRobot(Robot robot)
         {
             return new SubjectiveRobot
@@ -208,131 +326,8 @@ namespace AI
                 id = robot.id
             };
         }*/
-#endregion
+        
+    #endregion
 
-        public SubjectiveRobot RobotToSubjectiveRobot(Robot robot, bool canSee, bool isTeammate)
-        {
-            if (canSee || isTeammate)
-            {
-                return new SubjectiveRobot
-                {
-                    currentPosition = robot.playerMovement.currentRobotPosition,
-                    currentHealth = robot.health,
-                    lastShootDir = robot.playerAttack.lastShootDirection,
-                    isAlive = robot.alive,
-                    isSeen = canSee,
-                    team = robot.team,
-                    id = robot.id
-                };
-            
-            }
-            else
-            {
-                return new SubjectiveRobot
-                {
-                    isSeen = canSee,
-                    team = robot.team,
-                    id = robot.id
-                };
-            }
-        }
-
-#region Archived AlreadyRegistered
-        /*private bool AlreadyRegistered(Robot robot)
-        {
-            bool newRobot = true;
-            // int identicalPos;
-            for (int i = 0; i < controls.otherRobots.Count(); i++)
-            {
-                if (robot.id == controls.otherRobots[i].id)
-                {
-                    newRobot = false;
-                    controls.otherRobots[i] = RobotToSubjectiveRobot(robot, CanSee(robot), IsTeammate(robot));
-                }
-            }
-            if(newRobot)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }*/
-#endregion
-
-        private bool CanSee(GameObject target)
-        {
-            RaycastHit hit;
-
-            var relativePosition = (target.transform.position + Vector3.up * 0.5f) - (transform.position + Vector3.up * 0.5f);
-
-            if (Physics.Raycast(transform.position + Vector3.up * 0.5f, relativePosition, out hit))
-            {
-                if (hit.transform.gameObject == target)
-                {
-                    Debug.Log("I seeee you");
-                    return true;
-                }
-
-                return false;
- 
-            }
-            else
-                return false;
-        }
-
-        private bool IsTeammate(Robot target)
-        {
-            if (team == target.team)
-                return true;          
-            else
-                return false;
-        }
-
-        #endregion
-        #region Actions with robot
-        public void DealDamage(int dmg)
-        {
-            health -= dmg;
-            CheckStatus();
-        }
-
-        private void CheckStatus()
-        {
-            if(health<=0)
-            {
-                IsAlive = false;
-                //Some on death action
-            }
-        }
-        #endregion/
-        #region Control methods
-
-        void PassBall(Vector3 _target)
-        {
-            
-        }
-
-        void Attack(Vector3 _target)
-        {
-            playerAttack.Shoot(_target);
-        }
-
-        private void GoTo(Vector3 _position)
-        {
-            playerMovement.MoveTowards(_position);
-        }
-
-        private void OnDrawGizmos()
-        {
-            foreach (var robot in RobotManager.Instance.allRobots)
-            {
-                Gizmos.DrawLine(transform.position + Vector3.up * 0.5f, robot.transform.position + Vector3.up * 0.5f);
-            }
-            
-        }
-
-        #endregion
     }
 }
