@@ -51,7 +51,7 @@ namespace AI
 
         private void UpdateData()
         {
-            // controls.myself = GetAsTarget(this, true, true);
+            // controls.myself = RobotToSubjectiveRobot(this, true, true);
         }
 
         /// <summary>
@@ -63,16 +63,16 @@ namespace AI
         {
             // This list should be stored somewhere central for better performance! Finding objects is expensive!
             // Take the robots that are alive and that we can see and create a target of them
-            //controls.visibleTargets = allRobots.Where(r => r.IsAlive).Where(CanSee).Select(GetAsTarget).ToArray();
-            // controls.otherRobots = allRobots.Where(r => r.AlreadyRegistered(r)).Select(r => r.GetAsTarget(r, CanSee(r), IsTeammate(r))).ToArray();
+            //controls.visibleTargets = allRobots.Where(r => r.IsAlive).Where(CanSee).Select(RobotToSubjectiveRobot).ToArray();
+            // controls.otherRobots = allRobots.Where(r => r.AlreadyRegistered(r)).Select(r => r.RobotToSubjectiveRobot(r, CanSee(r), IsTeammate(r))).ToArray();
             var allRobots = RobotManager.Instance.allRobots;
             var allPickups = PickupManager.Instance.allPickups;
             controls.updateBall = BallManager.Instance.ballTransform.position;
             controls.updateRobots.Clear();
-            controls.updateRobots = allRobots.Select(r => r.GetAsTarget(r,CanSee(r.gameObject),IsTeammate(r))).ToList();
+            controls.updateRobots = allRobots.Select(r => r.RobotToSubjectiveRobot(r,CanSee(r.gameObject),IsTeammate(r))).ToList();
             ArchiveUpdate();
-            // controls.archiveRobots = allRobots.Where(r => r.IsTeammate(r)).Where(r => r.CannotSee(r)).Select(r => r.GetAsTarget(r)).ToList();
-            // controls.updatePickup = allPickups.Where(p => p.CanSee(p.gameObject)).ToList();
+            // controls.archiveRobots = allRobots.Where(r => r.IsTeammate(r)).Where(r => r.CannotSee(r)).Select(r => r.RobotToSubjectiveRobot(r)).ToList();
+            controls.updatePickup = allPickups.Where(p => p.CanSee(this.gameObject)).Select(p => p.PickupToSubjectivePickup(p)).ToList();
 
         }
 
@@ -118,8 +118,9 @@ namespace AI
                 }
             }
         }
-#region Archived GetAsTarget
-        /*public SubjectiveRobot GetAsTarget(Robot robot)
+        
+#region Archived RobotToSubjectiveRobot
+        /*public SubjectiveRobot RobotToSubjectiveRobot(Robot robot)
         {
             return new SubjectiveRobot
             {
@@ -134,7 +135,7 @@ namespace AI
         }*/
 #endregion
 
-        public SubjectiveRobot GetAsTarget(Robot robot, bool canSee, bool isTeammate)
+        public SubjectiveRobot RobotToSubjectiveRobot(Robot robot, bool canSee, bool isTeammate)
         {
             if (canSee || isTeammate)
             {
@@ -173,7 +174,7 @@ namespace AI
                 if (robot.id == controls.otherRobots[i].id)
                 {
                     newRobot = false;
-                    controls.otherRobots[i] = GetAsTarget(robot, CanSee(robot), IsTeammate(robot));
+                    controls.otherRobots[i] = RobotToSubjectiveRobot(robot, CanSee(robot), IsTeammate(robot));
                 }
             }
             if(newRobot)
