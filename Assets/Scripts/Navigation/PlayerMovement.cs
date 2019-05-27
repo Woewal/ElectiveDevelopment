@@ -36,4 +36,24 @@ public class PlayerMovement : MonoBehaviour
             MoveTowards(testDestination.position);
         }
     }
+
+	public void IncreaseSpeed(float amount, float duration)
+	{
+		StopAllCoroutines();
+		StartCoroutine(IncreaseSpeedCoroutine(amount, duration));
+	}
+
+	IEnumerator IncreaseSpeedCoroutine(float amount, float duration)
+	{
+		navMeshAgent.speed += amount;
+		float currentTime = 0;
+
+		while(currentTime < duration)
+		{
+			currentTime += Time.deltaTime;
+			yield return null;
+		}
+
+		navMeshAgent.speed -= amount;
+	}
 }

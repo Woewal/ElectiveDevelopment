@@ -27,6 +27,7 @@ namespace AI
         {
             IsAlive = true;
             RobotManager.Instance.Register(this);
+          
             // Set up the controls - what doesn't change?
 
             //controls.team = Team.blue;
@@ -38,6 +39,8 @@ namespace AI
             // Initialize brain
             brain.Initialize(controls);
         }
+        
+
 
         #region Refreshing brain
 
@@ -226,7 +229,7 @@ namespace AI
                 //Some on death action
             }
         }
-        #endregion
+        #endregion/
         #region Control methods
 
         void PassBall(Vector3 _target)
