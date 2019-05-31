@@ -30,6 +30,7 @@ public class PlayerAttack : MonoBehaviour
         if (coolDownVariable > 0)
             return;
         Vector3 shootDir = (_target - weaponHolder.position).normalized;
+        lastShootDirection = shootDir;
         GameObject bullet = Instantiate(projectile ,weaponHolder.position, Quaternion.identity);
         bullet.GetComponent<Rigidbody>().velocity = shootDir * projectileSpeed;
 

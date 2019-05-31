@@ -14,7 +14,6 @@ namespace AI
         public int health;
         public float speed;
         public int damage;
-        //public Team team;
         public int team;
         public bool alive;
         public int id;
@@ -39,11 +38,28 @@ namespace AI
             name = $"Robot: {id}";
 
             IsAlive = true;
-            
-            //controls.updateRobots = new List<SubjectiveRobot>();
             controls.archiveRobots = new List<SubjectiveRobot>();
-            UpdateData();
+            InitialDataFill();
 
+            controls.goTo = GoTo;
+            controls.attack = Attack;
+            controls.passBall = PassBall;
+            brain.Initialize(controls);
+        }
+
+        void Update()
+        {
+            UpdateSelf();
+            UpdateData();
+            UpdateBall();
+
+            brain.UpdateControls(controls);
+            Debug.Log(id);
+        }
+
+        //Fills in data for the first time with data that will be constant throughout the game (id,team)
+        private void InitialDataFill()
+        {
             var allRobots = RobotManager.Instance.allRobots;
             foreach (var robot in allRobots)
             {
@@ -55,26 +71,20 @@ namespace AI
                 });
             }
 
-
-            // Set up the controls - what doesn't change?
-
-            //controls.team = Team.blue;
-            controls.goTo = GoTo;
-            controls.attack = Attack;
-            controls.passBall = PassBall;
-
-            UpdateData();
-            // Initialize brain
-            brain.Initialize(controls);
         }
 
-        void Update()
+        /*
+         Updates data for each existing robot 
+         Data updates based on whether this robot is seen
+         Refreshed data is: position, health amount, is alive (dead or not), last shoot direction,is seen,
+         */
+        private void UpdateData()
         {
-            for(int i = 0; i < controls.archiveRobots.Count; i++)
+            for (int i = 0; i < controls.archiveRobots.Count; i++)
             {
                 var information = controls.archiveRobots[i];
                 var robot = RobotManager.Instance.allRobots.Where(x => x.id == information.id).First();
-                if(CanSee(robot.gameObject))
+                if (CanSee(robot.gameObject))
                 {
                     information.currentHealth = robot.health;
                     information.currentPosition = robot.playerMovement.currentRobotPosition;
@@ -82,26 +92,27 @@ namespace AI
                     information.lastShootDir = robot.playerAttack.lastShootDirection;
                     information.isSeen = true;
                 }
-                else 
+                else
                 {
                     information.isSeen = false;
                 }
                 controls.archiveRobots[i] = information;
             }
-            // Update controls and brain
-
-            //UpdateTargets();
-            //ArchiveUpdate();
-            //controls.updateRobots.Clear();
-            brain.UpdateControls(controls);
-            Debug.Log(id);
         }
 
-        private void UpdateData()
+        //Monitors data about the robot itself
+        private void UpdateSelf()
         {
             controls.myself = RobotToSubjectiveRobot(this, true, true);
         }
 
+        //Updates Ball position
+        private void UpdateBall()
+        {
+            controls.updateBall = BallManager.Instance.ballTransform.position;
+        }
+
+        //Transforms robot class into a struct of data
         public SubjectiveRobot RobotToSubjectiveRobot(Robot robot, bool canSee, bool isTeammate)
         {
             if (canSee || isTeammate)
@@ -129,6 +140,7 @@ namespace AI
             }
         }
 
+        //Checks is certain robot is seen or not
         private bool CanSee(GameObject target)
         {
             RaycastHit hit;
@@ -186,6 +198,8 @@ namespace AI
             playerMovement.MoveTowards(_position);
         }
 
+    #endregion
+
         private void OnDrawGizmos()
         {
             foreach (var robot in RobotManager.Instance.allRobots)
@@ -195,7 +209,7 @@ namespace AI
             
         }
 
-    #endregion
+
 
     #region Obsolete Code
 
