@@ -44,7 +44,6 @@ namespace AI
             controls.goTo = GoTo;
             controls.attack = Attack;
             controls.passBall = PassBall;
-            brain.Initialize(controls);
         }
 
         void Update()
@@ -53,7 +52,9 @@ namespace AI
             UpdateData();
             UpdateBall();
 
-            brain.UpdateControls(controls);
+            brain.UpdateAttack(controls);
+            brain.UpdateMovement(controls);
+            brain.UpdateBallPass(controls);
             Debug.Log(id);
         }
 
@@ -200,14 +201,14 @@ namespace AI
 
     #endregion
 
-        private void OnDrawGizmos()
+        /*private void OnDrawGizmos()
         {
             foreach (var robot in RobotManager.Instance.allRobots)
             {
                 Gizmos.DrawLine(transform.position + Vector3.up * 0.5f, robot.transform.position + Vector3.up * 0.5f);
             }
             
-        }
+        }*/
 
 
 
