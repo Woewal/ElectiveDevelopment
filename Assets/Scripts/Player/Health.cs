@@ -7,7 +7,7 @@ public class Health : MonoBehaviour
 {
 	public Slider Slider;
 	public float CurrentHP;
-	private float MaxHP = 100;
+	public float MaxHP = 100;
 	private bool isInvisible;
 	// Start is called before the first frame update
 	void Start()
@@ -15,7 +15,7 @@ public class Health : MonoBehaviour
 		CurrentHP = MaxHP;
 	}
 
-	private void takeDamage(float damage)
+	public void takeDamage(float damage)
 	{
 		if (isInvisible)
 			return;
@@ -31,12 +31,23 @@ public class Health : MonoBehaviour
 		}
 	}
 
+	public void GainHealth(float amount)
+	{
+		CurrentHP += amount;
+		ShowHPSlider();
+		
+		if(CurrentHP > 100)
+		{
+			CurrentHP = 100;
+		}
+	}
+
 	public void ShowHPSlider()
 	{
 		Slider.value = CurrentHP / (float)MaxHP;
 	}
 
-	public void GainInvisisbility(float duration)
+	public void GainInvulnerability(float duration)
 	{
 		StopAllCoroutines();
 		StartCoroutine(InvisibilityCoroutine(duration));
