@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    //Visual management
+    VisualsManager visuals;
 
     public Vector3 lastDestination;
     private NavMeshAgent navMeshAgent;
@@ -20,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
 	
     void Start()
     {
+        visuals = GetComponent<VisualsManager>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         robotTransform = this.GetComponent<Transform>();
 		moveSpeed = navMeshAgent.speed;
@@ -51,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
 	{
 		StopAllCoroutines();
 		StartCoroutine(IncreaseSpeedCoroutine(amount, duration));
+        visuals.StartEffect(1, duration);
 	}
 
 	IEnumerator IncreaseSpeedCoroutine(float amount, float duration)

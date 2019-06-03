@@ -11,22 +11,60 @@ public class VisualsManager : MonoBehaviour
     public ParticleSystem invisEffect;
     public ParticleSystem immortalEffect;
 
-    [SerializeField]
-    PlayerAttack attackComponent;
-    [SerializeField]
-    PlayerMovement movementComponent;
-    [SerializeField]
-    
 
-    // Start is called before the first frame update
-    void Start()
+    public void StartEffect(int effectNumber)
     {
-        
+        StartEffect(effectNumber, 0f);
     }
-
-    // Update is called once per frame
-    void Update()
+    public void StartEffect(int effectNumber, float duration)
     {
-        
+        if (duration <= 0)
+        {
+            StartCoroutine(StartVisualEffect(effectNumber, 1f));
+        }
+        else
+        {
+            StartCoroutine(StartVisualEffect(effectNumber, duration));
+        }
+    }
+    
+    private IEnumerator StartVisualEffect(int effectNumber, float time)
+    {
+        switch (effectNumber)
+        {
+            case 1:
+                speedEffect.Play();
+                break;
+            case 2:
+                invisEffect.Play();
+                break;
+            case 3:
+                immortalEffect.Play();
+                break;
+            case 4:
+                getDamage.Play();
+                break;
+            case 5:
+                getHealed.Play();
+                break;
+            default:
+                break;
+
+        }
+        yield return new WaitForSeconds(time);
+        switch (effectNumber)
+        {
+            case 1:
+                speedEffect.Stop();
+                break;
+            case 2:
+                invisEffect.Stop();
+                break;
+            case 3:
+                immortalEffect.Stop();
+                break;
+            default:
+                break;
+        }
     }
 }

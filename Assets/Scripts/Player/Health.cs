@@ -6,20 +6,26 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-	public Slider Slider;
+    //Visual management
+    VisualsManager visuals;
+
+    public Slider Slider;
 	public float CurrentHP;
 	public float MaxHP = 100;
-	private bool isInvisible;
+	private bool isInvulnerable;
 	// Start is called before the first frame update
 	void Start()
 	{
-		CurrentHP = MaxHP;
+        visuals = GetComponent<VisualsManager>();
+        CurrentHP = MaxHP;
 	}
 
 	public void takeDamage(float damage)
 	{
-		if (isInvisible)
+		if (isInvulnerable)
 			return;
+
+        visuals.StartEffect(4);
 
 		CurrentHP -= damage;
 		ShowHPSlider();
@@ -36,16 +42,17 @@ public class Health : MonoBehaviour
 		Slider.value = CurrentHP / (float)MaxHP;
 	}
 
-	public void GainInvisisbility(float duration)
+	public void GainInvulnerability(float duration)
 	{
 		StopAllCoroutines();
-		StartCoroutine(InvisibilityCoroutine(duration));
+		StartCoroutine(InvulnerabilityCoroutine(duration));
+        visuals.StartEffect(3, duration);
 	}
 
-	private IEnumerator InvisibilityCoroutine(float duration)
+	private IEnumerator InvulnerabilityCoroutine(float duration)
 	{
 		float currentTime = 0;
-		isInvisible = true;
+		isInvulnerable = true;
 
 		while (currentTime < duration)
 		{
@@ -53,11 +60,12 @@ public class Health : MonoBehaviour
 			yield return null;
 		}
 
-		isInvisible = false;
+		isInvulnerable = false;
 	}
 
 	public void GainHealth(float amount)
 	{
+        visuals.StartEffect(5);
 		if(CurrentHP + amount > MaxHP)
 		{
 			CurrentHP = MaxHP;
