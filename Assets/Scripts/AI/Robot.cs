@@ -17,11 +17,13 @@ namespace AI
         public int team;
         public bool alive;
         public int id;
+		public Vector3 respawnLocation;
 
         public bool IsAlive { get; private set; }
 
         public void Start()
         {
+			respawnLocation = transform.position;
             RobotManager.Instance.Register(this);
             RobotManager.Instance.OnRobotAdded += (robot) =>
             {

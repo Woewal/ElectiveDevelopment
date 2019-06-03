@@ -673,7 +673,7 @@ MonoBehaviour:
   - {fileID: 729617307655050374}
   - {fileID: 5482381365624668642}
   - {fileID: 5813408561206962535}
-  _spawnChance: 0.1
+  _spawnChance: 0
 --- !u!114 &6661645012786459251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -706,16 +706,16 @@ MonoBehaviour:
   - {fileID: 2063631291246238034}
   BallSpawn: {fileID: 566206053}
   RobotPrefabs:
-  - {fileID: 5400584532425472185, guid: 9ab2d5673305a194bbbb26ff9adbb501, type: 3}
-  - {fileID: 281708774122995639, guid: 27395c5216684b04b80d6cb34aed9096, type: 3}
-  - {fileID: 281708774122995639, guid: 27395c5216684b04b80d6cb34aed9096, type: 3}
-  - {fileID: 281708774122995639, guid: 27395c5216684b04b80d6cb34aed9096, type: 3}
+  - {fileID: 4200300825509291955, guid: 660de87fa1ae3994ba1193fc2521dfe1, type: 3}
+  - {fileID: 4200300825509291955, guid: 660de87fa1ae3994ba1193fc2521dfe1, type: 3}
+  - {fileID: 4200300825509291955, guid: 660de87fa1ae3994ba1193fc2521dfe1, type: 3}
+  - {fileID: 4200300825509291955, guid: 660de87fa1ae3994ba1193fc2521dfe1, type: 3}
   PickupPrefabs:
   - {fileID: 4455260991820004417, guid: f36bab1fd3010034c8d9a985e76609e4, type: 3}
   - {fileID: -4484242757090322548, guid: 0023f1b692581cf47a4d4587ec58629b, type: 3}
   BallPrefab: {fileID: 2125564628076596083, guid: 6624fecfe73ecce429843ad2e7a32fc5,
     type: 3}
-  RespawnDuration: 0
+  RespawnDuration: 5
 --- !u!1 &865356415911513674
 GameObject:
   m_ObjectHideFlags: 0

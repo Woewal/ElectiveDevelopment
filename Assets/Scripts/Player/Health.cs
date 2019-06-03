@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using AI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,10 +25,9 @@ public class Health : MonoBehaviour
 		ShowHPSlider();
 		if (CurrentHP <= 0)
 		{
-			CurrentHP = 0;
-
-			CurrentHP = 100;
-
+			gameObject.SetActive(false);
+			Spawner.Instance.Respawn(GetComponent<Robot>());
+			CurrentHP = MaxHP;
 		}
 	}
 
