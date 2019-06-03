@@ -55,9 +55,29 @@ public class Health : MonoBehaviour
 
 		isInvisible = false;
 	}
+    public void AddBlood(float amount, float duration)
+    {
+        StopAllCoroutines();
+        StartCoroutine(AddBloodCoroutine(amount, duration));
+    }
 
-	// Update is called once per frame
-	void Update()
+    IEnumerator AddBloodCoroutine(float amount, float duration)
+    {
+        CurrentHP += 5 * Time.deltaTime;
+
+        float currentTime = 0;
+
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+      
+    }
+
+    // Update is called once per frame
+    void Update()
 	{
 
 	}
