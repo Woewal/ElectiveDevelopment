@@ -13,18 +13,16 @@ public class HealthBar : MonoBehaviour
     public Gradient gradient;
     public float timeVar;
 
-    public Camera camera1;
-
     void Start(){}
 
     void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-        //     DecreaseHealth(10.0f);
-        // }
-        // if (Input.GetKeyDown(KeyCode.RightArrow)) {
-        //     IncreaseHealth(10.0f);
-        // }
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+            DecreaseHealth(10.0f);
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow)) {
+            IncreaseHealth(10.0f);
+        }
     }
 
     void DecreaseHealth(float amount) {
