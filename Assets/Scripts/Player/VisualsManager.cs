@@ -11,6 +11,9 @@ public class VisualsManager : MonoBehaviour
     public ParticleSystem invisEffect;
     public ParticleSystem immortalEffect;
 
+    public GameObject head;
+    public GameObject body;
+
 
     public void StartEffect(int effectNumber)
     {
@@ -37,6 +40,8 @@ public class VisualsManager : MonoBehaviour
                 break;
             case 2:
                 invisEffect.Play();
+                head.GetComponent<MeshRenderer>().materials[0].color = new Vector4(1, 1, 1, 0.29f);
+                body.GetComponent<MeshRenderer>().materials[0].color = new Vector4(1, 1, 1, 0.29f);
                 break;
             case 3:
                 immortalEffect.Play();
@@ -59,6 +64,8 @@ public class VisualsManager : MonoBehaviour
                 break;
             case 2:
                 invisEffect.Stop();
+                head.GetComponent<MeshRenderer>().materials[0].color = new Vector4(1, 1, 1, 1);
+                body.GetComponent<MeshRenderer>().materials[0].color = new Vector4(1, 1, 1, 1);
                 break;
             case 3:
                 immortalEffect.Stop();
