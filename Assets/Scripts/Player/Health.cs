@@ -1,5 +1,4 @@
-﻿using AI;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +7,7 @@ public class Health : MonoBehaviour
 {
 	public Slider Slider;
 	public float CurrentHP;
-	public float MaxHP = 100;
+	private float MaxHP = 100;
 	private bool isInvisible;
 	// Start is called before the first frame update
 	void Start()
@@ -16,7 +15,7 @@ public class Health : MonoBehaviour
 		CurrentHP = MaxHP;
 	}
 
-	public void takeDamage(float damage)
+	private void takeDamage(float damage)
 	{
 		if (isInvisible)
 			return;
@@ -25,9 +24,10 @@ public class Health : MonoBehaviour
 		ShowHPSlider();
 		if (CurrentHP <= 0)
 		{
-			gameObject.SetActive(false);
-			var robot = GetComponent<Robot>();
-			Spawner.Instance.Respawn(robot);
+			CurrentHP = 0;
+
+			CurrentHP = 100;
+
 		}
 	}
 
@@ -55,20 +55,29 @@ public class Health : MonoBehaviour
 
 		isInvisible = false;
 	}
+    public void AddBlood(float amount, float duration)
+    {
+        StopAllCoroutines();
+        StartCoroutine(AddBloodCoroutine(amount, duration));
+    }
 
-	public void GainHealth(float amount)
-	{
-		if(CurrentHP + amount > MaxHP)
-		{
-			CurrentHP = MaxHP;
-		}
-		else
-		{
-			CurrentHP += amount;
-		}
-	}
+    IEnumerator AddBloodCoroutine(float amount, float duration)
+    {
+        CurrentHP += 5 * Time.deltaTime;
 
-	void Update()
+        float currentTime = 0;
+
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+      
+    }
+
+    // Update is called once per frame
+    void Update()
 	{
 
 	}

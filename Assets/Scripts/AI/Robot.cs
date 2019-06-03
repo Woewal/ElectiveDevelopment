@@ -6,6 +6,9 @@ namespace AI
 {
     public class Robot : MonoBehaviour
     {
+        //Visual management
+        VisualsManager visuals;
+
         public Brain brain;
         public RobotControls controls;
         public PlayerAttack playerAttack;
@@ -32,7 +35,8 @@ namespace AI
 
 		public void Start()
         {
-			respawnLocation = transform.position;
+            visuals = GetComponent<VisualsManager>();
+            respawnLocation = transform.position;
             RobotManager.Instance.Register(this);
             RobotManager.Instance.OnRobotAdded += (robot) =>
             {
