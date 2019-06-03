@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using AI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AI;
@@ -9,6 +10,6 @@ public class Healing : Pickup
 
 	protected override void PickUp(Robot player, PickupHandler pickUpHandler)
 	{
-		player.GetComponent<Health>().GainHealth(Amount);
+		player.health.GainHealth(Amount);
 	}
 }

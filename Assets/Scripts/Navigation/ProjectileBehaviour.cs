@@ -19,7 +19,7 @@ public class ProjectileBehaviour : MonoBehaviour
 
 		if (robot != null)
 		{
-			robot.DealDamage(damage);
+			robot.health.takeDamage(damage);
 			Destroy(this.gameObject);
 		}
 	}

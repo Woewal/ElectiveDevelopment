@@ -16,7 +16,7 @@ public class Health : MonoBehaviour
 		CurrentHP = MaxHP;
 	}
 
-	private void takeDamage(float damage)
+	public void takeDamage(float damage)
 	{
 		if (isInvisible)
 			return;

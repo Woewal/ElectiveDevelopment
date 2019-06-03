@@ -11,11 +11,18 @@ public class PlayerMovement : MonoBehaviour
 
     private Transform robotTransform;
     public Vector3 currentRobotPosition { get; private set; }
-    // Start is called before the first frame update
+	// Start is called before the first frame update
+
+	public int SlowDownStacks;
+	public float SlowDownPerStack;
+
+	float moveSpeed;
+	
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         robotTransform = this.GetComponent<Transform>();
+		moveSpeed = navMeshAgent.speed;
     }
 
     public void MoveTowards(Vector3 _target)
@@ -28,6 +35,17 @@ public class PlayerMovement : MonoBehaviour
     {
         currentRobotPosition = robotTransform.position;
     }
+
+	public void AddSlowDown()
+	{
+		SlowDownStacks++;
+		UpdateMovementSpeed();
+	}
+
+	public void UpdateMovementSpeed()
+	{
+		navMeshAgent.speed = moveSpeed - SlowDownStacks * SlowDownPerStack;
+	}
 
 	public void IncreaseSpeed(float amount, float duration)
 	{
