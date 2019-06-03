@@ -9702,7 +9702,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lastDestination: {x: 0, y: 0, z: 0}
   SlowDownStacks: 0
-  SlowDownPerStack: 0
+  SlowDownPerStack: 0.05
 --- !u!114 &4200300825509291954
 MonoBehaviour:
   m_ObjectHideFlags: 0
