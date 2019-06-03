@@ -17,7 +17,7 @@ public class RobotListElement : MonoBehaviour
         if(canSee || isTeammate)
         {
             currentRobotPosition = victim.playerMovement.currentRobotPosition;
-            currentHealth = victim.health;
+            currentHealth = victim.health.CurrentHP;
             lastShootVector = victim.playerAttack.lastShootDirection;
         }
         teammate = isTeammate;
