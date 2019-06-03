@@ -10,18 +10,29 @@ namespace AI
         public RobotControls controls;
         public PlayerAttack playerAttack;
         public PlayerMovement playerMovement;
+		public Health health;
 
-        public int health;
         public float speed;
         public int damage;
         public int team;
         public bool alive;
         public int id;
+		public Vector3 respawnLocation;
 
-        public bool IsAlive { get; private set; }
+		public bool IsAlive { get
+			{
+				return health.CurrentHP > 0;
+			}
+		}
 
-        public void Start()
+		void Awake()
+		{
+			health = GetComponent<Health>();	
+		}
+
+		public void Start()
         {
+			respawnLocation = transform.position;
             RobotManager.Instance.Register(this);
             RobotManager.Instance.OnRobotAdded += (robot) =>
             {
@@ -37,7 +48,6 @@ namespace AI
 
             name = $"Robot: {id}";
 
-            IsAlive = true;
             controls.archiveRobots = new List<SubjectiveRobot>();
             InitialDataFill();
 
@@ -55,7 +65,6 @@ namespace AI
             brain.UpdateAttack(controls);
             brain.UpdateMovement(controls);
             brain.UpdateBallPass(controls);
-            Debug.Log(id);
         }
 
         //Fills in data for the first time with data that will be constant throughout the game (id,team)
@@ -87,7 +96,7 @@ namespace AI
                 var robot = RobotManager.Instance.allRobots.Where(x => x.id == information.id).First();
                 if (CanSee(robot.gameObject))
                 {
-                    information.currentHealth = robot.health;
+                    information.currentHealth = robot.health.CurrentHP;
                     information.currentPosition = robot.playerMovement.currentRobotPosition;
                     information.isAlive = robot.alive;
                     information.lastShootDir = robot.playerAttack.lastShootDirection;
@@ -121,7 +130,7 @@ namespace AI
                 return new SubjectiveRobot
                 {
                     currentPosition = robot.playerMovement.currentRobotPosition,
-                    currentHealth = robot.health,
+                    currentHealth = robot.health.CurrentHP,
                     lastShootDir = robot.playerAttack.lastShootDirection,
                     isAlive = robot.alive,
                     isSeen = canSee,
@@ -152,7 +161,6 @@ namespace AI
             {
                 if (hit.transform.gameObject == target)
                 {
-                    Debug.Log("I seeee you");
                     return true;
                 }
 
@@ -167,17 +175,7 @@ namespace AI
 
         public void DealDamage(int dmg)
         {
-            health -= dmg;
-            CheckStatus();
-        }
-
-        private void CheckStatus()
-        {
-            if(health<=0)
-            {
-                IsAlive = false;
-                //Some on death action
-            }
+            health.CurrentHP -= dmg;
         }
 
     #endregion

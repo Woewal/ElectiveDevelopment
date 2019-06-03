@@ -6,12 +6,12 @@ using UnityEngine;
 //D
 public class Ball : Pickup
 {
-	[HideInInspector] public Player AssignedPlayer;
+	[HideInInspector] public Robot AssignedPlayer;
 	[SerializeField] AnimationCurve _travelCurve;
 	[SerializeField] float _travelSpeed;
 	[SerializeField] float _maxHeight;
 
-	Player _ignoredPlayer;
+	Robot _ignoredPlayer;
 	float _timeUntilPoint = 1;
 
     private void Start()
@@ -31,7 +31,7 @@ public class Ball : Pickup
 		}
 	}
 
-	protected override void PickUp(Player player, PickupHandler pickupHandler)
+	protected override void PickUp(Robot player, PickupHandler pickupHandler)
 	{
 		if (player == _ignoredPlayer) return;
 

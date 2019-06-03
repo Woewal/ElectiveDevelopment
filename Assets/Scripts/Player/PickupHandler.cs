@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using AI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class PickupHandler : MonoBehaviour
 	public Vector3 ObjectHoldPosition;
 	public Ball Ball;
 
-	Player _player;
+	Robot _player;
 
 	void OnTriggerEnter(Collider other)
 	{
@@ -18,7 +19,7 @@ public class PickupHandler : MonoBehaviour
 			return;
 
 		if (_player == null)
-			_player = GetComponent<Player>();
+			_player = GetComponent<Robot>();
 
 		pickup.OnPickup(_player, this);
 

@@ -22,8 +22,6 @@ public class PlayerMovement : MonoBehaviour
     {
         lastDestination = _target;
         navMeshAgent.SetDestination(lastDestination);
-        Debug.Log(navMeshAgent);
-        Debug.Log(lastDestination);
     }
     // Update is called once per frame
     void Update()
