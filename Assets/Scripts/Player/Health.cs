@@ -56,7 +56,18 @@ public class Health : MonoBehaviour
 		isInvisible = false;
 	}
 
-	// Update is called once per frame
+	public void GainHealth(float amount)
+	{
+		if(CurrentHP + amount > MaxHP)
+		{
+			CurrentHP = MaxHP;
+		}
+		else
+		{
+			CurrentHP += amount;
+		}
+	}
+
 	void Update()
 	{
 
