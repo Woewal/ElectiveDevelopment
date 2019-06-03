@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using AI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +8,7 @@ public class Health : MonoBehaviour
 {
 	public Slider Slider;
 	public float CurrentHP;
-	private float MaxHP = 100;
+	public float MaxHP = 100;
 	private bool isInvisible;
 	// Start is called before the first frame update
 	void Start()
@@ -24,10 +25,9 @@ public class Health : MonoBehaviour
 		ShowHPSlider();
 		if (CurrentHP <= 0)
 		{
-			CurrentHP = 0;
-
-			CurrentHP = 100;
-
+			gameObject.SetActive(false);
+			var robot = GetComponent<Robot>();
+			Spawner.Instance.Respawn(robot);
 		}
 	}
 
