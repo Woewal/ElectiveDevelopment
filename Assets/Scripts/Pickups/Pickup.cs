@@ -13,7 +13,7 @@ public abstract class Pickup : MonoBehaviour
 
 	public bool RespawnOnPickup;
 
-	public Action<Player, PickupHandler> OnPickup = delegate { };
+	public Action<Robot, PickupHandler> OnPickup = delegate { };
 
 	void Awake()
 	{
@@ -28,7 +28,7 @@ public abstract class Pickup : MonoBehaviour
 		OnPickup += PickUp;
 	}
 
-	protected abstract void PickUp(Player player, PickupHandler pickupHandler);
+	protected abstract void PickUp(Robot player, PickupHandler pickupHandler);
 
 	public bool CanSee(GameObject target)
 	{

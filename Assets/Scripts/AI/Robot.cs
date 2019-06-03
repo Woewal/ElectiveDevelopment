@@ -55,7 +55,6 @@ namespace AI
             brain.UpdateAttack(controls);
             brain.UpdateMovement(controls);
             brain.UpdateBallPass(controls);
-            Debug.Log(id);
         }
 
         //Fills in data for the first time with data that will be constant throughout the game (id,team)
@@ -152,7 +151,6 @@ namespace AI
             {
                 if (hit.transform.gameObject == target)
                 {
-                    Debug.Log("I seeee you");
                     return true;
                 }
 
