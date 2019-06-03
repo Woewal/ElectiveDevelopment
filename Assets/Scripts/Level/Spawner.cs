@@ -70,7 +70,7 @@ public class Spawner : MonoBehaviour
 
 	public void Respawn(Robot robot)
 	{
-		StartCoroutine(RespawnRobotCoroutine(2, robot));
+		StartCoroutine(RespawnRobotCoroutine(RespawnDuration, robot));
 	}
 
 	public void Respawn(GameObject target)
@@ -88,6 +88,8 @@ public class Spawner : MonoBehaviour
 			yield return null;
 		}
 
+		var health = robot.GetComponent<Health>();
+		health.CurrentHP = health.MaxHP;
 		robot.transform.position = robot.respawnLocation;
 		robot.gameObject.SetActive(true);
 	}

@@ -8,7 +8,7 @@ public class Health : MonoBehaviour
 {
 	public Slider Slider;
 	public float CurrentHP;
-	private float MaxHP = 100;
+	public float MaxHP = 100;
 	private bool isInvisible;
 	// Start is called before the first frame update
 	void Start()
@@ -26,8 +26,8 @@ public class Health : MonoBehaviour
 		if (CurrentHP <= 0)
 		{
 			gameObject.SetActive(false);
-			Spawner.Instance.Respawn(GetComponent<Robot>());
-			CurrentHP = MaxHP;
+			var robot = GetComponent<Robot>();
+			Spawner.Instance.Respawn(robot);
 		}
 	}
 
