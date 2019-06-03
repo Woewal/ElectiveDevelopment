@@ -9643,8 +9643,8 @@ GameObject:
   - component: {fileID: 7345654600759613663}
   - component: {fileID: 6164403076668757849}
   m_Layer: 0
-  m_Name: BaseRobot 2
-  m_TagString: Untagged
+  m_Name: BaseRobot3
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9702,6 +9702,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastDestination: {x: 0, y: 0, z: 0}
+  SlowDownStacks: 0
+  SlowDownPerStack: 0
 --- !u!114 &4200300825509291954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24288,12 +24290,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 6741287938348077548, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 656f28785d2748544a178cf076f799cd,
-        type: 3}
     - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
         type: 3}
       propertyPath: m_Color.r
@@ -24335,6 +24331,12 @@ PrefabInstance:
       propertyPath: m_FillOrigin
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6741287938348077548, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 656f28785d2748544a178cf076f799cd,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d095c8ab6b1a24ab58a02192ccb63fe4, type: 3}
 --- !u!224 &5655409826817474098 stripped

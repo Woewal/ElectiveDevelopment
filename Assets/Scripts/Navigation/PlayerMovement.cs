@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
 	public int SlowDownStacks;
 	public float SlowDownPerStack;
+	public bool isInvisible;
 
 	float moveSpeed;
 	
@@ -69,5 +70,27 @@ public class PlayerMovement : MonoBehaviour
 		}
 
 		navMeshAgent.speed -= amount;
+	}
+
+	public void GainInvisibility(float duration)
+	{
+		StopAllCoroutines();
+		StartCoroutine(GainInvisibilityCoroutine(duration));
+        visuals.StartEffect(2, duration);
+		// player.child(1).child(1+2).albeto(transparent)
+	}
+
+	IEnumerator GainInvisibilityCoroutine(float duration)
+	{
+		float currentTime = 0;
+		isInvisible = true;
+
+		while (currentTime < duration)
+		{
+			currentTime += Time.deltaTime;
+			yield return null;
+		}
+
+		isInvisible = false;
 	}
 }

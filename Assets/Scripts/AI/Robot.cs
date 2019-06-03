@@ -165,12 +165,27 @@ namespace AI
             {
                 if (hit.transform.gameObject == target)
                 {
-                    return true;
+                    if (target.GetComponent<PlayerMovement>().isInvisible)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
                 }
 
                 return false;
- 
+
             }
+            else
+                return false;
+        }
+
+        private bool IsTeammate(Robot target)
+        {
+            if (team == target.team)
+                return true;          
             else
                 return false;
         }
@@ -236,14 +251,6 @@ namespace AI
             {
                 return false;
             }
-        }*/
-
-        /*private bool IsTeammate(Robot target)
-        {
-            if (team == target.team)
-                return true;          
-            else
-                return false;
         }*/
 
         /// <summary>
