@@ -18,6 +18,7 @@ public class Ball : Pickup
     {
         BallManager.Instance.Register(this.gameObject);
     }
+
     void Update()
 	{
 		if (AssignedPlayer == null) return;
@@ -26,8 +27,10 @@ public class Ball : Pickup
 
 		if(_timeUntilPoint < 0)
 		{
-            ScoreManager.Instance.OnScored(AssignedPlayer.GetComponent<Robot>(), 1);
+			AssignedPlayer.playerMovement.AddSlowDown();
+            ScoreManager.Instance.OnScored(AssignedPlayer, 1);
 			_timeUntilPoint = 1;
+
 		}
 	}
 
@@ -75,6 +78,8 @@ public class Ball : Pickup
 
 	public void Drop()
 	{
+		AssignedPlayer.playerMovement.SlowDownStacks = 0;
+		AssignedPlayer.playerMovement.UpdateMovementSpeed();
 		AssignedPlayer = null;
 		transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 		transform.SetParent(null);

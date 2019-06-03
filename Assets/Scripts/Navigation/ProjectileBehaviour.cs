@@ -5,20 +5,26 @@ using AI;
 
 public class ProjectileBehaviour : MonoBehaviour
 {
-
     public float timeToLive;
     public int damage;
-    private void OnCollisionEnter(Collision collision)
+
+	void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag.Equals("player"))
-        {
-            collision.transform.parent.GetComponent<Robot>().DealDamage(damage);
-            Destroy(this.gameObject);
-        }
-        else
-            Destroy(this.gameObject);
+        Destroy(this.gameObject);
     }
-    private void Update()
+
+	void OnTriggerEnter(Collider other)
+	{
+		var robot = other.gameObject.GetComponent<Robot>();
+
+		if (robot != null)
+		{
+			robot.health.takeDamage(damage);
+			Destroy(this.gameObject);
+		}
+	}
+
+	void Update()
     {
         if(timeToLive>0)
         {

@@ -68,9 +68,30 @@ public class Spawner : MonoBehaviour
 		}
 	}
 
+	public void Respawn(Robot robot)
+	{
+		StartCoroutine(RespawnRobotCoroutine(RespawnDuration, robot));
+	}
+
 	public void Respawn(GameObject target)
 	{
 		StartCoroutine(RespawnCoroutine(RespawnDuration, target));
+	}
+
+	IEnumerator RespawnRobotCoroutine(float duration, Robot robot)
+	{
+		float currentTime = 0;
+
+		while (currentTime < duration)
+		{
+			currentTime += Time.deltaTime;
+			yield return null;
+		}
+
+		var health = robot.GetComponent<Health>();
+		health.CurrentHP = health.MaxHP;
+		robot.transform.position = robot.respawnLocation;
+		robot.gameObject.SetActive(true);
 	}
 
 	IEnumerator RespawnCoroutine(float duration, GameObject target)

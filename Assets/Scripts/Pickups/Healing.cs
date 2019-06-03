@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AI;
 
-public class Invisibility : Pickup
+public class Healing : Pickup
 {
-	public float Duration;
+	public float Amount;
 
 	protected override void PickUp(Robot player, PickupHandler pickUpHandler)
 	{
-		player.GetComponent<Health>().GainInvulnerability(Duration);
+		player.health.GainHealth(Amount);
 	}
 }
