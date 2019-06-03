@@ -14,7 +14,7 @@ public class Ball : Pickup
 	Robot _ignoredPlayer;
 	float _timeUntilPoint = 1;
 
-    private void Start()
+	void Start()
     {
         BallManager.Instance.Register(this.gameObject);
     }
@@ -38,6 +38,8 @@ public class Ball : Pickup
 	{
 		if (player == _ignoredPlayer) return;
 
+
+		BallManager.Instance.assignedPlayer = player;
 		transform.localPosition = pickupHandler.transform.position + pickupHandler.ObjectHoldPosition;
 
 		transform.SetParent(pickupHandler.transform);
@@ -78,6 +80,7 @@ public class Ball : Pickup
 
 	public void Drop()
 	{
+		BallManager.Instance.assignedPlayer = null;
 		AssignedPlayer.playerMovement.SlowDownStacks = 0;
 		AssignedPlayer.playerMovement.UpdateMovementSpeed();
 		AssignedPlayer = null;

@@ -1,39 +1,44 @@
-﻿using AI;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    //Visual management
-    VisualsManager visuals;
-
-    public Slider Slider;
+	public Slider Slider;
 	public float CurrentHP;
 	public float MaxHP = 100;
-	private bool isInvulnerable;
+	private bool isInvisible;
 	// Start is called before the first frame update
 	void Start()
 	{
-        visuals = GetComponent<VisualsManager>();
-        CurrentHP = MaxHP;
+		CurrentHP = MaxHP;
 	}
 
 	public void takeDamage(float damage)
 	{
-		if (isInvulnerable)
+		if (isInvisible)
 			return;
-
-        visuals.StartEffect(4);
 
 		CurrentHP -= damage;
 		ShowHPSlider();
 		if (CurrentHP <= 0)
 		{
-			gameObject.SetActive(false);
-			var robot = GetComponent<Robot>();
-			Spawner.Instance.Respawn(robot);
+			CurrentHP = 0;
+
+			CurrentHP = 100;
+
+		}
+	}
+
+	public void GainHealth(float amount)
+	{
+		CurrentHP += amount;
+		ShowHPSlider();
+		
+		if(CurrentHP > 100)
+		{
+			CurrentHP = 100;
 		}
 	}
 
@@ -45,14 +50,13 @@ public class Health : MonoBehaviour
 	public void GainInvulnerability(float duration)
 	{
 		StopAllCoroutines();
-		StartCoroutine(InvulnerabilityCoroutine(duration));
-        visuals.StartEffect(3, duration);
+		StartCoroutine(InvisibilityCoroutine(duration));
 	}
 
-	private IEnumerator InvulnerabilityCoroutine(float duration)
+	private IEnumerator InvisibilityCoroutine(float duration)
 	{
 		float currentTime = 0;
-		isInvulnerable = true;
+		isInvisible = true;
 
 		while (currentTime < duration)
 		{
@@ -60,23 +64,34 @@ public class Health : MonoBehaviour
 			yield return null;
 		}
 
-		isInvulnerable = false;
+		isInvisible = false;
 	}
+    public void AddBlood(float amount, float duration)
+    {
+        StopAllCoroutines();
+        StartCoroutine(AddBloodCoroutine(amount, duration));
+    }
 
-	public void GainHealth(float amount)
-	{
-        visuals.StartEffect(5);
-		if(CurrentHP + amount > MaxHP)
-		{
-			CurrentHP = MaxHP;
-		}
-		else
-		{
-			CurrentHP += amount;
-		}
-	}
+    IEnumerator AddBloodCoroutine(float amount, float duration)
+    {
+        CurrentHP += 5 * Time.deltaTime;
+        if (CurrentHP >= 100)
+        {
+            CurrentHP = 100;
+        }
+        float currentTime = 0;
 
-	void Update()
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+      
+    }
+
+    // Update is called once per frame
+    void Update()
 	{
 
 	}
