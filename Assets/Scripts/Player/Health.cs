@@ -64,7 +64,10 @@ public class Health : MonoBehaviour
     IEnumerator AddBloodCoroutine(float amount, float duration)
     {
         CurrentHP += 5 * Time.deltaTime;
-
+        if (CurrentHP >= 100)
+        {
+            CurrentHP = 100;
+        }
         float currentTime = 0;
 
         while (currentTime < duration)

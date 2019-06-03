@@ -9,6 +9,6 @@ public class Invisibility : Pickup
 
 	protected override void PickUp(Robot player, PickupHandler pickUpHandler)
 	{
-		player.GetComponent<Health>().GainInvulnerability(Duration);
+		player.GetComponent<Health>().GainInvisisbility(Duration);
 	}
 }
