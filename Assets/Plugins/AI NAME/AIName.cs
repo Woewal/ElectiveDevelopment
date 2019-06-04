@@ -13,13 +13,7 @@ public class AIName : Brain
 
     public override void UpdateMovement(RobotControls controls)
     {
-        string test = $"Id: {controls.myself.id} I can see: ";
-
-        foreach(var robot in controls.archiveRobots)
-        {
-            if(robot.isSeen)
-                test += $"{robot.id} ";
-        }
+       
     }
 
     public override void UpdateBallPass(RobotControls controls)

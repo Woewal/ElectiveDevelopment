@@ -9642,6 +9642,7 @@ GameObject:
   - component: {fileID: 7779112826235168907}
   - component: {fileID: 7345654600759613663}
   - component: {fileID: 6164403076668757849}
+  - component: {fileID: -2947559847148971148}
   m_Layer: 0
   m_Name: BaseRobot3
   m_TagString: Player
@@ -9704,6 +9705,7 @@ MonoBehaviour:
   lastDestination: {x: 0, y: 0, z: 0}
   SlowDownStacks: 0
   SlowDownPerStack: 0
+  isInvisible: 0
 --- !u!114 &4200300825509291954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9736,7 +9738,7 @@ MonoBehaviour:
   brain: {fileID: 11400000, guid: 2373e8a02e0258441bdf3e7a0eeb55cb, type: 2}
   playerAttack: {fileID: 4200300825509291954}
   playerMovement: {fileID: 4200300825509291967}
-  health: {fileID: 0}
+  health: {fileID: -2947559847148971148}
   speed: 5
   damage: 2
   team: 0
@@ -9801,6 +9803,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectHoldPosition: {x: 0, y: 0, z: 0.92}
   Ball: {fileID: 0}
+--- !u!114 &-2947559847148971148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4200300825509291966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cac11a5965f345041b2420ff7cdf2bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Slider: {fileID: 0}
+  CurrentHP: 0
+  MaxHP: 100
 --- !u!1 &6049362129729815902
 GameObject:
   m_ObjectHideFlags: 0
@@ -24352,10 +24369,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4200300825509291953}
     m_Modifications:
-    - target: {fileID: 1688396140395292, guid: 95ead2241df19344abce9e16396cc670, type: 3}
-      propertyPath: m_Name
-      value: char03
-      objectReference: {fileID: 0}
     - target: {fileID: 4493005653889308, guid: 95ead2241df19344abce9e16396cc670, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -24411,6 +24424,10 @@ PrefabInstance:
     - target: {fileID: 4493005653889308, guid: 95ead2241df19344abce9e16396cc670, type: 3}
       propertyPath: m_LocalScale.z
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1688396140395292, guid: 95ead2241df19344abce9e16396cc670, type: 3}
+      propertyPath: m_Name
+      value: char03
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95ead2241df19344abce9e16396cc670, type: 3}

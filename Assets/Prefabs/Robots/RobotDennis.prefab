@@ -9642,8 +9642,9 @@ GameObject:
   - component: {fileID: 7779112826235168907}
   - component: {fileID: 7345654600759613663}
   - component: {fileID: 6164403076668757849}
+  - component: {fileID: 2718815863182998567}
   m_Layer: 0
-  m_Name: BaseRobot4
+  m_Name: RobotDennis
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9704,6 +9705,7 @@ MonoBehaviour:
   lastDestination: {x: 0, y: 0, z: 0}
   SlowDownStacks: 0
   SlowDownPerStack: 0
+  isInvisible: 0
 --- !u!114 &4200300825509291954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9733,10 +9735,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f501c59f2be83534890187dd3c242bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: 2373e8a02e0258441bdf3e7a0eeb55cb, type: 2}
+  brain: {fileID: 11400000, guid: 1e02073ead56b284e9a84bb420d870df, type: 2}
   playerAttack: {fileID: 4200300825509291954}
   playerMovement: {fileID: 4200300825509291967}
-  health: {fileID: 0}
+  health: {fileID: 2718815863182998567}
   speed: 5
   damage: 2
   team: 0
@@ -9801,6 +9803,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectHoldPosition: {x: 0, y: 0, z: 0.92}
   Ball: {fileID: 0}
+--- !u!114 &2718815863182998567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4200300825509291966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cac11a5965f345041b2420ff7cdf2bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Slider: {fileID: 0}
+  CurrentHP: 0
+  MaxHP: 100
 --- !u!1 &6049362129729815902
 GameObject:
   m_ObjectHideFlags: 0

@@ -44,7 +44,8 @@ public class Health : MonoBehaviour
 
 	public void ShowHPSlider()
 	{
-		Slider.value = CurrentHP / (float)MaxHP;
+		if(Slider != null)
+			Slider.value = CurrentHP / (float)MaxHP;
 	}
 
 	public void GainInvulnerability(float duration)
