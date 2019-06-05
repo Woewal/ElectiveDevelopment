@@ -35,3 +35,5 @@ sysinfo.txt
 *.apk
 *.unitypackage
 Assets/Scripts/AI/Robot.cs
+*.meta
+Assets/Plugins/AI NAME/AIMonica.cs
