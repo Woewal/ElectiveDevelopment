@@ -9642,8 +9642,10 @@ GameObject:
   - component: {fileID: 7779112826235168907}
   - component: {fileID: 7345654600759613663}
   - component: {fileID: 6164403076668757849}
+  - component: {fileID: 4447948887438967727}
+  - component: {fileID: 8248201022433427465}
   m_Layer: 0
-  m_Name: BaseRobot4
+  m_Name: DennisRobot
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9704,6 +9706,7 @@ MonoBehaviour:
   lastDestination: {x: 0, y: 0, z: 0}
   SlowDownStacks: 0
   SlowDownPerStack: 0
+  isInvisible: 0
 --- !u!114 &4200300825509291954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9733,10 +9736,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f501c59f2be83534890187dd3c242bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: 2373e8a02e0258441bdf3e7a0eeb55cb, type: 2}
+  brain: {fileID: 11400000, guid: 1e02073ead56b284e9a84bb420d870df, type: 2}
   playerAttack: {fileID: 4200300825509291954}
   playerMovement: {fileID: 4200300825509291967}
-  health: {fileID: 0}
+  health: {fileID: 4447948887438967727}
   speed: 5
   damage: 2
   team: 0
@@ -9801,6 +9804,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectHoldPosition: {x: 0, y: 0, z: 0.92}
   Ball: {fileID: 0}
+--- !u!114 &4447948887438967727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4200300825509291966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cac11a5965f345041b2420ff7cdf2bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Slider: {fileID: 5655409826817474099}
+  CurrentHP: 0
+  MaxHP: 100
+--- !u!114 &8248201022433427465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4200300825509291966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4079e0cdf3b93843b9f5384fe84c947, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  getDamage: {fileID: 1690798545776872980}
+  getHealed: {fileID: 7509670412541573689}
+  speedEffect: {fileID: 3011008797704767524}
+  invisEffect: {fileID: 3371666950509475846}
+  immortalEffect: {fileID: 8790382068405405945}
+  head: {fileID: 8972109170329852780}
+  body: {fileID: 8971757719033428106}
 --- !u!1 &6049362129729815902
 GameObject:
   m_ObjectHideFlags: 0
@@ -24345,6 +24382,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1437159484339728179}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5655409826817474099 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6741287938905231616, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1437159484339728179}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eb8f17f3b69670469029875ea7170ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8973203950890433866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24414,6 +24463,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15072ae266a5372459246cbca4308f69, type: 3}
+--- !u!1 &8972109170329852780 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1245413990311462, guid: 15072ae266a5372459246cbca4308f69,
+    type: 3}
+  m_PrefabInstance: {fileID: 8973203950890433866}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8971757719033428106 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1459532566857152, guid: 15072ae266a5372459246cbca4308f69,
+    type: 3}
+  m_PrefabInstance: {fileID: 8973203950890433866}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8977486189275908790 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4865804188301308, guid: 15072ae266a5372459246cbca4308f69,

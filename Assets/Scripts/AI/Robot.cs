@@ -28,11 +28,6 @@ namespace AI
 			}
 		}
 
-		void Awake()
-		{
-			health = GetComponent<Health>();	
-		}
-
 		public void Start()
         {
             visuals = GetComponent<VisualsManager>();
@@ -191,11 +186,6 @@ namespace AI
         }
 
     #region Actions with robot
-
-        public void DealDamage(int dmg)
-        {
-            health.CurrentHP -= dmg;
-        }
 
     #endregion
 
