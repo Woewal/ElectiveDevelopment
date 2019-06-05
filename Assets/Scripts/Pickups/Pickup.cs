@@ -7,7 +7,7 @@ using AI;
 //D
 public abstract class Pickup : MonoBehaviour
 {
-	public enum Type { Ball, Health, Speed, Invincibility }
+	public enum Type { Ball, Health, Speed, Invisibility, Invulnerability }
 
 	public Type PickupType;
 

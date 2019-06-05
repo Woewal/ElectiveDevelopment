@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreManger : MonoBehaviour
+public class ScoreManger0 : MonoBehaviour
 {
     public Text redText;
     public Text blueText;

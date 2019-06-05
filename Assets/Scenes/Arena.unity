@@ -294,8 +294,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 231165214}
-  m_LocalRotation: {x: 0.38984835, y: -0.0000042792512, z: 0.0000018115942, w: 0.9208791}
-  m_LocalPosition: {x: 0.030881518, y: 5482.6133, z: -5464.0166}
+  m_LocalRotation: {x: 0.38980904, y: -0.0000051325956, z: 0.0000021725882, w: 0.92089576}
+  m_LocalPosition: {x: 0.5397274, y: 34371.67, z: -33470.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1463455992}
@@ -576,8 +576,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 298815546}
-  m_LocalRotation: {x: 0.38984835, y: -0.0000042792512, z: 0.0000018115942, w: 0.9208791}
-  m_LocalPosition: {x: 0.030881518, y: 5482.6133, z: -5472.664}
+  m_LocalRotation: {x: 0.38980904, y: -0.0000051325956, z: 0.0000021725882, w: 0.92089576}
+  m_LocalPosition: {x: 0.5397274, y: 34371.67, z: -33478.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1781087654}
@@ -1224,8 +1224,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353176633}
-  m_LocalRotation: {x: -0.000000008914525, y: -0.7454108, z: 0.6666054, w: 0.00000017128558}
-  m_LocalPosition: {x: 0.0000009160012, y: 3.8941107, z: 0.29309368}
+  m_LocalRotation: {x: 6.320988e-10, y: -0.7454393, z: 0.66657364, w: 0.000000037521204}
+  m_LocalPosition: {x: 0.0000000026484486, y: 3.8940856, z: 0.29342604}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1995562600}
@@ -1542,8 +1542,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1685565080}
-  m_LocalRotation: {x: 0.000000015987325, y: -0.7573813, z: 0.6529729, w: 0.00000008332563}
-  m_LocalPosition: {x: 0.0000003888763, y: 3.8941107, z: 0.29309344}
+  m_LocalRotation: {x: 0.000000021745336, y: -0.7574092, z: 0.6529405, w: 0.000000019218533}
+  m_LocalPosition: {x: 0.0000000026484486, y: 3.8940856, z: 0.29342604}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 668629726}
@@ -1618,8 +1618,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781087653}
-  m_LocalRotation: {x: -0.000000028658064, y: -0.73316234, z: 0.6800538, w: 0.000000101179694}
-  m_LocalPosition: {x: 0.0000005527854, y: 3.8941107, z: 0.29309368}
+  m_LocalRotation: {x: -0.00000002220986, y: -0.73319125, z: 0.68002254, w: -0.000000020137122}
+  m_LocalPosition: {x: 0.0000000026484486, y: 3.8940856, z: 0.29342604}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1612691778}
@@ -1901,6 +1901,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arena 2.0
       objectReference: {fileID: 0}
+    - target: {fileID: 865356415562041682, guid: 6239320996979aa40b9e37937d7e6bda,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 865356415562041681, guid: 6239320996979aa40b9e37937d7e6bda,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1959,7 +1964,46 @@ PrefabInstance:
     - target: {fileID: 6661645012786459251, guid: 6239320996979aa40b9e37937d7e6bda,
         type: 3}
       propertyPath: PickupPrefabs.Array.size
-      value: 1
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6661645012786459251, guid: 6239320996979aa40b9e37937d7e6bda,
+        type: 3}
+      propertyPath: PickupPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 8433551079470679810, guid: c5c09f27fdea0484cb901d7408c2a152,
+        type: 3}
+    - target: {fileID: 6661645012786459251, guid: 6239320996979aa40b9e37937d7e6bda,
+        type: 3}
+      propertyPath: PickupPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 1733818072964423371, guid: 976cf8d38a02ee04aa0633e838cf8545,
+        type: 3}
+    - target: {fileID: 6661645012786459251, guid: 6239320996979aa40b9e37937d7e6bda,
+        type: 3}
+      propertyPath: PickupPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 2204494141564174452, guid: 357fa7334e4454f409ba36b9b2c59113,
+        type: 3}
+    - target: {fileID: 6661645012786459251, guid: 6239320996979aa40b9e37937d7e6bda,
+        type: 3}
+      propertyPath: PickupPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 2125564628076596083, guid: 6624fecfe73ecce429843ad2e7a32fc5,
+        type: 3}
+    - target: {fileID: 1265764388141862241, guid: 6239320996979aa40b9e37937d7e6bda,
+        type: 3}
+      propertyPath: _spawnChance
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 865356415110294866, guid: 6239320996979aa40b9e37937d7e6bda,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 865356415110294866, guid: 6239320996979aa40b9e37937d7e6bda,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6239320996979aa40b9e37937d7e6bda, type: 3}
