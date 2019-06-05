@@ -13,19 +13,9 @@ public class HealthBar : MonoBehaviour
     public Gradient gradient;
     public float timeVar;
 
-    void Start(){}
 
-    void Update()
+    public void DecreaseHealth(float amount)
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-            DecreaseHealth(10.0f);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow)) {
-            IncreaseHealth(10.0f);
-        }
-    }
-
-    void DecreaseHealth(float amount) {
         float newHealth = health - amount;
         StartCoroutine(Flash());
         StartCoroutine(Shake());
@@ -39,7 +29,8 @@ public class HealthBar : MonoBehaviour
         }
     }
 
-    void IncreaseHealth(float amount) {
+    public void IncreaseHealth(float amount)
+    {
         float newHealth = health + amount;
         StartCoroutine(Flash());
         StartCoroutine(Shake());

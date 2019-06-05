@@ -5,14 +5,20 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-	public Slider Slider;
+    //Visual management
+    VisualsManager visuals;
+
+    public HealthBar Slider;
 	public float CurrentHP;
 	public float MaxHP = 100;
 	private bool isInvisible;
 	// Start is called before the first frame update
 	void Start()
 	{
-		CurrentHP = MaxHP;
+        visuals = GetComponent<VisualsManager>();
+        CurrentHP = MaxHP;
+        Slider.health = CurrentHP;
+        Slider.maxHealth = MaxHP;
 	}
 
 	public void takeDamage(float damage)
@@ -21,7 +27,10 @@ public class Health : MonoBehaviour
 			return;
 
 		CurrentHP -= damage;
-		ShowHPSlider();
+
+        visuals.StartEffect(4);
+        Slider.DecreaseHealth(damage);
+    
 		if (CurrentHP <= 0)
 		{
 			CurrentHP = 0;
@@ -34,7 +43,9 @@ public class Health : MonoBehaviour
 	public void GainHealth(float amount)
 	{
 		CurrentHP += amount;
-		ShowHPSlider();
+
+        visuals.StartEffect(5);
+        Slider.IncreaseHealth(amount);
 		
 		if(CurrentHP > 100)
 		{
@@ -42,11 +53,6 @@ public class Health : MonoBehaviour
 		}
 	}
 
-	public void ShowHPSlider()
-	{
-		if(Slider != null)
-			Slider.value = CurrentHP / (float)MaxHP;
-	}
 
 	public void GainInvulnerability(float duration)
 	{
