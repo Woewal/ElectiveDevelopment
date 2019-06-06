@@ -46,7 +46,7 @@ namespace AI
         public SubjectiveRobot myself;
         public Vector3 updateBall;
 
-        public List<SubjectiveRobot> updateRobots;
+        //public List<SubjectiveRobot> updateRobots;
         //public List<SubjectiveRobot> archiveRobots;
         public List<SubjectiveRobot> archiveRobots;
 

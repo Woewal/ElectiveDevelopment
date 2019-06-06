@@ -14,10 +14,18 @@ public class AIKiril : Brain
     private bool _noClosestTeammate;
     private bool _noClosestEnemy;
 
+    //Pickups locations
     private Vector3 _closestHealth;
     private Vector3 _closestSpeed;
     private Vector3 _closestInvis;
     private Vector3 _closestInvuln;
+
+    //Ball ownership fields
+    private Vector3 _lastBallPosition;
+    private Vector3 _currentBallPosition;
+    private bool _ballCaptured;
+    private bool _enemyTeamHasTheBall;
+    private bool _iHaveBall;
 
 
     private List<SubjectiveRobot> visibleEnemies = new List<SubjectiveRobot>();
@@ -27,6 +35,9 @@ public class AIKiril : Brain
     private SubjectiveRobot currentTarget;
     private float projectileSpeed = 10f;
     private float targetSpeed;
+
+    //Single use bools
+    private bool initialBallPosSet;
 
 
 
@@ -52,6 +63,81 @@ public class AIKiril : Brain
         
     }
 
+    //Checks who owns the ball
+    private void CheckBallOwnership(RobotControls controls)
+    {
+        _currentBallPosition = controls.updateBall;
+        _iHaveBall = false;
+        _ballCaptured = false;
+        foreach (SubjectiveRobot robot in controls.archiveRobots)
+        {
+            if(robot.team == controls.myself.team)
+            {
+                if (robot.currentPosition.x == _currentBallPosition.x && robot.currentPosition.y == _currentBallPosition.y)
+                {
+                    _ballCaptured = true;
+                    _ballOwner = robot;
+                    _enemyTeamHasTheBall = false;
+                    if(robot.id == controls.myself.id)
+                    {
+                        _iHaveBall = true;
+                    }
+                    else
+                    {
+                        _iHaveBall = false;
+                    }
+                }
+            }
+            else
+            {
+                if(robot.isSeen)
+                {
+                    if (robot.currentPosition.x == _currentBallPosition.x && robot.currentPosition.y == _currentBallPosition.y)
+                    {
+                        _ballCaptured = true;
+                        _ballOwner = robot;
+                        _enemyTeamHasTheBall = true;
+                    }
+                }
+                else
+                {
+                    if(_currentBallPosition != _lastBallPosition)
+                    {
+                        _ballCaptured = true;
+                        _enemyTeamHasTheBall = true;
+                    }
+                }
+            }
+        }
+        _lastBallPosition = _currentBallPosition;
+    }
+
+    //Checks for pickups locations
+    private void CheckPickups(RobotControls controls)
+    {
+        if(controls.updatePickup.Count > 0)
+        {
+            foreach(SubjectivePickup pickup in controls.updatePickup)
+            {
+                if(pickup.ofType == "Health")
+                {
+                    _closestHealth = pickup.currentPickupPosition;
+                }
+                else if (pickup.ofType == "Speed")
+                {
+                    _closestSpeed = pickup.currentPickupPosition;
+                }
+                else if (pickup.ofType == "Invisibility")
+                {
+                    _closestInvis = pickup.currentPickupPosition;
+                }
+                else if (pickup.ofType == "Invulnerability")
+                {
+                    _closestInvuln = pickup.currentPickupPosition;
+                }
+            }
+        }
+    }
 
     private void CheckForVisibility(RobotControls controls)
     {
