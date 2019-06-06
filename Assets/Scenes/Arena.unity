@@ -295,7 +295,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 231165214}
   m_LocalRotation: {x: 0.38980904, y: -0.0000051325956, z: 0.0000021725882, w: 0.92089576}
-  m_LocalPosition: {x: 0.7464821, y: 53501.92, z: -52018.344}
+  m_LocalPosition: {x: 0.7638989, y: 55113.438, z: -53580.816}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1463455992}
@@ -577,7 +577,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 298815546}
   m_LocalRotation: {x: 0.38980904, y: -0.0000051325956, z: 0.0000021725882, w: 0.92089576}
-  m_LocalPosition: {x: 0.7464821, y: 53501.92, z: -52026.992}
+  m_LocalPosition: {x: 0.7638989, y: 55113.438, z: -53589.465}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1781087654}
@@ -1999,19 +1999,19 @@ PrefabInstance:
         type: 3}
       propertyPath: RobotPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 4200300825509291955, guid: 0fc7092feb4b71546b708ae3def8d2a5,
+      objectReference: {fileID: 4200300825509291955, guid: 660de87fa1ae3994ba1193fc2521dfe1,
         type: 3}
     - target: {fileID: 6661645012786459251, guid: 6239320996979aa40b9e37937d7e6bda,
         type: 3}
       propertyPath: RobotPrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 4200300825509291955, guid: 0fc7092feb4b71546b708ae3def8d2a5,
+      objectReference: {fileID: 4200300825509291955, guid: 45e5a58cf8143fb4785b260b86d93021,
         type: 3}
     - target: {fileID: 6661645012786459251, guid: 6239320996979aa40b9e37937d7e6bda,
         type: 3}
       propertyPath: RobotPrefabs.Array.data[2]
       value: 
-      objectReference: {fileID: 4200300825509291955, guid: 0fc7092feb4b71546b708ae3def8d2a5,
+      objectReference: {fileID: 4200300825509291955, guid: c594d3ed43c34fb46abb696d7a8b6ff9,
         type: 3}
     - target: {fileID: 6661645012786459251, guid: 6239320996979aa40b9e37937d7e6bda,
         type: 3}
