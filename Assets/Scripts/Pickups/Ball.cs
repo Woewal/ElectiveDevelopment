@@ -30,7 +30,6 @@ public class Ball : Pickup
 			AssignedPlayer.playerMovement.AddSlowDown();
             ScoreManager.Instance.OnScored(AssignedPlayer, 1);
 			_timeUntilPoint = 1;
-
 		}
 	}
 

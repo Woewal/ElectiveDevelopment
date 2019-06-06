@@ -8,6 +8,10 @@ using Debug = UnityEngine.Debug;
 [CreateAssetMenu]
 public class AIAntreas : Brain
 {
+    public Vector3 destinationPoint;
+
+    public float cooldown = 1;
+
     public override void UpdateAttack(RobotControls controls)
     {
         //Debug.Log($"AIRando awoke at {controls.me.position}. Ready to rumble.");
@@ -24,7 +28,7 @@ public class AIAntreas : Brain
         //         test += $"{robot.id} ";
         // }
 
-        // controls.goTo()
+        controls.goTo(destinationPoint);
     }
 
     public override void UpdateBallPass(RobotControls controls)
@@ -32,27 +36,74 @@ public class AIAntreas : Brain
         //Debug.Log($"AIRando reached {controls.me.position}.");
     }
 
-    // public GameObject GetClosest()
-    // {
-    //     GameObject closest = null;
-    //     float distance = Mathf.Infinity;
-    //     Vector3 position = transform.position;
-    //     if(EnemyManager.Instance.enemies.Count > 0)
-    //     {
-    //         foreach (GameObject enemy in EnemyManager.Instance.enemies)
-    //         {
-    //             Vector3 diff = enemy.transform.position - position;
-    //             float curDistance = diff.sqrMagnitude;
-    //             if (curDistance < distance && enemy.GetComponent<Enemy>().currentHealth > 0)
-    //             {
-    //                 closest = enemy;
-    //                 distance = curDistance;
-    //             }
-    //         }
-    //     }
-    //     return closest;
-    // }
+    public GameObject GetClosest(RobotControls controls)
+    {
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = controls.myself.currentPosition;
+        if(controls.archiveRobots.Count > 1)
+        {
+            foreach (SubjectiveRobot robot in controls.archiveRobots)
+            {
+                Vector3 diff = enemy.transform.position - position;
+                float curDistance = diff.sqrMagnitude;
+                if (curDistance < distance && enemy.GetComponent<Enemy>().currentHealth > 0)
+                {
+                    closest = enemy;
+                    distance = curDistance;
+                }
+            }
+        }
+        return closest;
+    }
 
+    public GameObject GetFurthest(RobotControls controls)
+    {
+        GameObject closest = null;
+        float distance = Mathf.Infinity;
+        Vector3 position = controls.myself.currentPosition;
+        if(controls.archiveRobots.Count > 1)
+        {
+            foreach (SubjectiveRobot robot in controls.archiveRobots)
+            {
+                Vector3 diff = enemy.transform.position - position;
+                float curDistance = diff.sqrMagnitude;
+                if (curDistance < distance && enemy.GetComponent<Enemy>().currentHealth > 0)
+                {
+                    closest = enemy;
+                    distance = curDistance;
+                }
+            }
+        }
+        return closest;
+    }
+
+    public GameObject GetBallCarrier(RobotControls controls)
+    {
+        GameObject closest = null;
+        if(controls.archiveRobots.Count > 1)
+        {
+            foreach (SubjectiveRobot robot in controls.archiveRobots)
+            {
+                if (Mathf.Approximately(robot.currentPosition.z, controls.updateBall))
+                {
+                    closest = enemy;
+                    distance = curDistance;
+                }
+            }
+        }
+        return closest;
+    }
+
+    public GameObject PredictionShooting(RobotControls controls)
+    {
+
+        tDistanceTraveled = tPosB - tPosA;
+        tSpeed = tDistanceTraveled.magnitute / tTimeElapsed;
+        pSpeed = 10;
+        
+        tPosX = 
+    }
 
     #region Ball carrier
 
@@ -104,6 +155,26 @@ public class AIAntreas : Brain
 
         // else if(!possessBall)
         // {
+            
+            #region Ally ball
+
+                // if(hp <= hpThreshold && alliesSeen)
+                // {
+                    //Pass the ball to furthest ally
+                    //possessBall = false
+                // }
+
+            #endregion
+
+            #region Opponent ball
+
+                // else if(controls.ballUpdate && !opponentsSeen)
+                // {
+                    //Stop moving
+                // }
+
+            #endregion
+
             // Move towards the ball
             // Shoot at ball carrier
         // }

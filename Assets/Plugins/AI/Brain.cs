@@ -43,6 +43,8 @@ namespace AI
 
         #region Data
         //new Data
+
+        public float reload;
         public SubjectiveRobot myself;
         public Vector3 updateBall;
 

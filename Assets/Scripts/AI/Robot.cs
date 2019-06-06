@@ -89,6 +89,14 @@ namespace AI
          */
         private void UpdateData()
         {
+            foreach (Pickup pickup in PickupManager.Instance.allPickups)
+            {
+                if (CanSee(pickup.gameObject))
+                {
+                    controls.updatePickup.Add(PickupToSubjectivePickup(pickup));
+                }
+            }
+
             for (int i = 0; i < controls.archiveRobots.Count; i++)
             {
                 var information = controls.archiveRobots[i];
@@ -113,12 +121,22 @@ namespace AI
         private void UpdateSelf()
         {
             controls.myself = RobotToSubjectiveRobot(this, true, true);
+            controls.reload = playerAttack.coolDownVariable;
         }
 
         //Updates Ball position
         private void UpdateBall()
         {
             controls.updateBall = BallManager.Instance.ballTransform.position;
+        }
+
+        public SubjectivePickup PickupToSubjectivePickup(Pickup pickup)
+        {
+            return new SubjectivePickup
+            {
+                currentPickupPosition = pickup.transform.position,
+                ofType = pickup.PickupType.ToString()
+            };
         }
 
         //Transforms robot class into a struct of data

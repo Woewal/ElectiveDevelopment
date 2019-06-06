@@ -12,7 +12,7 @@ public class PlayerAttack : MonoBehaviour
     public float attackCoolDown;
     public float projectileSpeed;
 
-    private float coolDownVariable;
+    public float coolDownVariable;
     private Vector3 lastTarget;
 
     public Transform weaponHolder;
