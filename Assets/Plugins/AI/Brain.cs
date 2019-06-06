@@ -221,7 +221,7 @@ namespace AI
 		}
 
 		//Checks for pickups locations
-		private void CheckPickups(RobotControls controls)
+		protected void CheckPickups(RobotControls controls)
 		{
 			if (controls.updatePickup.Count > 0)
 			{
