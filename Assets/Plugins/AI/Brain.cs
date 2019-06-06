@@ -134,9 +134,9 @@ namespace AI
 			closestTeammate = null;
 			float distanceMin = 1000f;
 
-			if (visibleEnemies.Count > 0)
+			if (visibleTeamMates.Count > 0)
 			{
-				foreach (SubjectiveRobot robot in visibleEnemies)
+				foreach (SubjectiveRobot robot in visibleTeamMates)
 				{
 					if (Vector3.Distance(robot.currentPosition, controls.myself.currentPosition) < distanceMin)
 					{
