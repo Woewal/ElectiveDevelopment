@@ -182,6 +182,7 @@ public class AIKiril : Brain
         }
     }
 
+    //Fills in list with visible enemies and teammates
     private void CheckForVisibility(RobotControls controls)
     {
         visibleEnemies.Clear();
@@ -239,7 +240,7 @@ public class AIKiril : Brain
 
         if (visibleEnemies.Count > 0)
         {
-            foreach (SubjectiveRobot robot in visibleEnemies)
+            foreach (SubjectiveRobot robot in visibleTeamMates)
             {
                 if (Vector3.Distance(robot.currentPosition, controls.myself.currentPosition) < distanceMin)
                 {
