@@ -221,7 +221,7 @@ namespace AI
 		}
 
 		//Checks for pickups locations
-		protected void CheckPickups(RobotControls controls)
+		private void CheckPickups(RobotControls controls)
 		{
 			if (controls.updatePickup.Count > 0)
 			{
@@ -229,19 +229,59 @@ namespace AI
 				{
 					if (pickup.ofType == "Health")
 					{
-						_closestHealth = pickup.currentPickupPosition;
+						if (_closestHealth != null)
+						{
+							if (Vector3.Distance(pickup.currentPickupPosition, controls.myself.currentPosition) < Vector3.Distance(_closestHealth, controls.myself.currentPosition))
+							{
+								_closestHealth = pickup.currentPickupPosition;
+							}
+						}
+						else
+						{
+							_closestHealth = pickup.currentPickupPosition;
+						}
 					}
 					else if (pickup.ofType == "Speed")
 					{
-						_closestSpeed = pickup.currentPickupPosition;
+						if (_closestSpeed != null)
+						{
+							if (Vector3.Distance(pickup.currentPickupPosition, controls.myself.currentPosition) < Vector3.Distance(_closestSpeed, controls.myself.currentPosition))
+							{
+								_closestSpeed = pickup.currentPickupPosition;
+							}
+						}
+						else
+						{
+							_closestSpeed = pickup.currentPickupPosition;
+						}
 					}
 					else if (pickup.ofType == "Invisibility")
 					{
-						_closestInvis = pickup.currentPickupPosition;
+						if (_closestInvis != null)
+						{
+							if (Vector3.Distance(pickup.currentPickupPosition, controls.myself.currentPosition) < Vector3.Distance(_closestInvis, controls.myself.currentPosition))
+							{
+								_closestInvis = pickup.currentPickupPosition;
+							}
+						}
+						else
+						{
+							_closestInvis = pickup.currentPickupPosition;
+						}
 					}
 					else if (pickup.ofType == "Invulnerability")
 					{
-						_closestInvuln = pickup.currentPickupPosition;
+						if (_closestInvuln != null)
+						{
+							if (Vector3.Distance(pickup.currentPickupPosition, controls.myself.currentPosition) < Vector3.Distance(_closestInvuln, controls.myself.currentPosition))
+							{
+								_closestInvuln = pickup.currentPickupPosition;
+							}
+						}
+						else
+						{
+							_closestInvuln = pickup.currentPickupPosition;
+						}
 					}
 				}
 			}

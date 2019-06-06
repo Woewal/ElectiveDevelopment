@@ -27,6 +27,7 @@ public class AIKiril : Brain
 
     private void UpdateLocalData(RobotControls controls)
     {
+        CheckForVisibility(controls);
         CheckBallOwnership(controls);
         CheckPickups(controls);
     }    
