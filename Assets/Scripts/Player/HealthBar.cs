@@ -13,6 +13,10 @@ public class HealthBar : MonoBehaviour
     public Gradient gradient;
     public float timeVar;
 
+    void Update()
+    {
+        GetComponent<RectTransform>().LookAt(Camera.main.transform.position, -Vector3.up);
+    }
 
     public void DecreaseHealth(float amount)
     {
