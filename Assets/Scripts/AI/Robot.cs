@@ -61,6 +61,7 @@ namespace AI
             UpdateData();
             UpdateBall();
 
+			brain.UpdateData(controls);
             brain.UpdateAttack(controls);
             brain.UpdateMovement(controls);
             brain.UpdateBallPass(controls);
@@ -211,7 +212,7 @@ namespace AI
 
         void PassBall(Vector3 _target)
         {
-            
+			GetComponent<PickupHandler>().Ball.Pass(_target);
         }
 
         void Attack(Vector3 _target)

@@ -64,6 +64,7 @@ namespace AI
 
 	public abstract class Brain : ScriptableObject
 	{
+		public virtual void UpdateData(RobotControls controls) { }
 		public abstract void UpdateAttack(RobotControls controls);
 		public abstract void UpdateMovement(RobotControls controls);
 		public abstract void UpdateBallPass(RobotControls controls);
