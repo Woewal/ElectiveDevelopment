@@ -60,7 +60,8 @@ public class AIKiril : Brain
 
     private void UpdateLocalData(RobotControls controls)
     {
-        
+        CheckBallOwnership(controls);
+        CheckPickups(controls);
     }
 
     //Checks who owns the ball
