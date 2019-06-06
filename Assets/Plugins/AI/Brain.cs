@@ -41,10 +41,12 @@ namespace AI
 
 		#endregion
 
-		#region Data
-		//new Data
-		public SubjectiveRobot myself;
-		public Vector3 updateBall;
+        #region Data
+        //new Data
+
+        public float reload;
+        public SubjectiveRobot myself;
+        public Vector3 updateBall;
 
 		//public List<SubjectiveRobot> updateRobots;
 		//public List<SubjectiveRobot> archiveRobots;

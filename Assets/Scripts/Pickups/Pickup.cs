@@ -48,8 +48,8 @@ public abstract class Pickup : MonoBehaviour
 	{
 		return new SubjectivePickup
 		{
-        currentPickupPosition = pickup.transform.position,
-        ofType = pickup.PickupType.ToString()
+			currentPickupPosition = pickup.transform.position,
+			ofType = pickup.PickupType.ToString()
 		};
 	}
 }
