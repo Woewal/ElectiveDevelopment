@@ -47,7 +47,7 @@ public class ScoreManager : MonoBehaviour
 
     public void StopScores()
     {
-        if (TeamPoints[1] == 100 && TeamPoints[2] == 100 )
+        if (TeamPoints[1] == 100 || TeamPoints[2] == 100 )
         {
             scoreActive = false;
             Timer.Instance.timeActive = false;
