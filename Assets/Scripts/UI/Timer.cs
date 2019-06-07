@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class Timer : MonoBehaviour
 {
-    public Text GameTime;
+    public TextMeshProUGUI GameTime;
     public float timeStart;
 
   public bool timeActive = true;

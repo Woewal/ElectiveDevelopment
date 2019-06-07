@@ -16,6 +16,8 @@ public class ScoreManager : MonoBehaviour
     bool scoreActive = true;
     public Dictionary<int, int> TeamPoints = new Dictionary<int, int>();
 
+
+
     public void Awake()
     {
         Instance = this;
@@ -48,7 +50,7 @@ public class ScoreManager : MonoBehaviour
         if (TeamPoints[1] == 100 && TeamPoints[2] == 100 )
         {
             scoreActive = false;
-           // Timer.t
+          //  Timer.Instantiate.timeActive = false;
         }
     }
 }
