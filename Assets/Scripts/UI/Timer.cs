@@ -8,7 +8,14 @@ public class Timer : MonoBehaviour
     public TextMeshProUGUI GameTime;
     public float timeStart;
 
-  public bool timeActive = true;
+    public bool timeActive = true;
+
+    public static Timer Instance { get; private set; }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {

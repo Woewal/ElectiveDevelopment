@@ -16,7 +16,7 @@ public class ScoreManager : MonoBehaviour
     bool scoreActive = true;
     public Dictionary<int, int> TeamPoints = new Dictionary<int, int>();
 
-
+    public EndMenu EndScreen;
 
     public void Awake()
     {
@@ -47,10 +47,11 @@ public class ScoreManager : MonoBehaviour
 
     public void StopScores()
     {
-        if (TeamPoints[1] == 100 && TeamPoints[2] == 100 )
+        if (TeamPoints[1] == 5 && TeamPoints[2] == 5 )
         {
             scoreActive = false;
-          //  Timer.Instantiate.timeActive = false;
+            Timer.Instance.timeActive = false;
+            EndScreen.gameObject.SetActive(true);
         }
     }
 }
