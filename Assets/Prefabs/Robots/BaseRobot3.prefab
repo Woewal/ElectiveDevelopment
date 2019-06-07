@@ -9737,7 +9737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f501c59f2be83534890187dd3c242bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: add62a94e502cd84da4682ac26adf389, type: 2}
+  brain: {fileID: 0}
   playerAttack: {fileID: 4200300825509291954}
   playerMovement: {fileID: 4200300825509291967}
   health: {fileID: 6115398133995367393}
@@ -9803,7 +9803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a719105dac46948bdfcbce930baea3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectHoldPosition: {x: 0, y: 1.5, z: 0}
+  ObjectHoldPosition: {x: 0, y: 1.2, z: 0}
   Ball: {fileID: 0}
 --- !u!114 &6115398133995367393
 MonoBehaviour:
