@@ -5,6 +5,10 @@ using Debug = UnityEngine.Debug;
 [CreateAssetMenu]
 public class AIName : Brain
 {
+    public override void UpdateData(RobotControls controls)
+    {
+
+    }
     public override void UpdateAttack(RobotControls controls)
     {
         //Debug.Log($"AIRando awoke at {controls.me.position}. Ready to rumble.");

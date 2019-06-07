@@ -12,6 +12,10 @@ public class AIKiril : Brain
 	private Vector3 _closestSpeed;
 	private Vector3 _closestInvis;
 	private Vector3 _closestInvuln;
+    private bool _haveSpeed;
+    private bool _haveInvis;
+    private bool _haveInvuln;
+    private bool _recentlyHealed;
 
     //Ball ownership fields
     private SubjectiveRobot _ballOwner;
@@ -96,6 +100,19 @@ public class AIKiril : Brain
         _canMove = true;
     }
 
+    private void GoForRobot(RobotControls controls, SubjectiveRobot robot)
+    {
+        _MoveVector = robot.currentPosition;
+        _canMove = true;
+    }
+
+    private void GoFromRobot(RobotControls controls, SubjectiveRobot robot)
+    {
+        Vector3 moveDir = controls.myself.currentPosition - robot.currentPosition;
+        _MoveVector = moveDir.normalized + controls.myself.currentPosition;
+        _canMove = true;
+    }
+
     private void StopMovement(RobotControls controls)
     {
         _MoveVector = controls.myself.currentPosition;
@@ -106,24 +123,76 @@ public class AIKiril : Brain
     {
         _MoveVector = _closestHealth;
         _canMove = true;
+        if (Vector3.Distance(_closestHealth, controls.myself.currentPosition) > 2)
+        {
+            foreach (SubjectivePickup pickup in controls.updatePickup)
+            {
+                if (pickup.currentPickupPosition == _closestHealth)
+                {
+                    if (Vector3.Distance(_closestHealth, controls.myself.currentPosition) < 0.25f)
+                    {
+                        _recentlyHealed = true;
+                    }
+                }
+            }
+        }
     }
 
     private void GoForSpeed(RobotControls controls)
     {
         _MoveVector = _closestSpeed;
         _canMove = true;
+        if (Vector3.Distance(_closestSpeed, controls.myself.currentPosition) > 2)
+        {
+            foreach (SubjectivePickup pickup in controls.updatePickup)
+            {
+                if (pickup.currentPickupPosition == _closestSpeed)
+                {
+                    if (Vector3.Distance(_closestSpeed, controls.myself.currentPosition) < 0.25f)
+                    {
+                        _haveSpeed = true;
+                    }
+                }
+            }
+        }
     }
 
     private void GoForInvis(RobotControls controls)
     {
         _MoveVector = _closestInvis;
         _canMove = true;
+        if(Vector3.Distance(_closestInvis, controls.myself.currentPosition) > 2)
+        {
+            foreach(SubjectivePickup pickup in controls.updatePickup)
+            {
+                if(pickup.currentPickupPosition == _closestInvis)
+                {
+                    if(Vector3.Distance(_closestInvis, controls.myself.currentPosition) < 0.25f)
+                    {
+                        _haveInvis = true;
+                    }
+                }
+            }
+        }
     }
 
     private void GoForInvuln(RobotControls controls)
     {
         _MoveVector = _closestInvuln;
         _canMove = true;
+        if (Vector3.Distance(_closestInvuln, controls.myself.currentPosition) > 2)
+        {
+            foreach (SubjectivePickup pickup in controls.updatePickup)
+            {
+                if (pickup.currentPickupPosition == _closestInvuln)
+                {
+                    if (Vector3.Distance(_closestInvuln, controls.myself.currentPosition) < 0.25f)
+                    {
+                        _haveInvuln = true;
+                    }
+                }
+            }
+        }
     }
 
     //Shooting States
@@ -148,6 +217,119 @@ public class AIKiril : Brain
         _canPassBall = true;
     }
 
+    //-------------------------------------------------------------------------------------------------
+    //******Behaviuors*****
+    private void PickupHideOrRun(RobotControls controls)
+    {
+        if (controls.myself.currentHealth < 50f)
+        {
+            #region Movement goal between Health and Invis or hiding behind Teammate
+
+            if (_closestHealth != null || _closestInvis != null)
+            {
+                if (_closestInvis != null && _closestHealth != null)
+                {
+
+                    if (Vector3.Distance(_closestHealth, controls.myself.currentPosition) < Vector3.Distance(_closestInvis, controls.myself.currentPosition))
+                    {
+                        GoForHealth(controls);
+
+                    }
+                    else
+                    {
+                        GoForInvis(controls);
+                    }
+                }
+                else if (_closestHealth != null)
+                {
+                    GoForHealth(controls);
+                }
+                else if (_closestInvis != null)
+                {
+                    GoForInvis(controls);
+                }
+            }
+            else
+            {
+                if (visibleTeamMates.Count > 0 && visibleEnemies.Count > 0)
+                {
+                    HideBehindTeammate(controls);
+                }
+                else if(visibleEnemies.Count > 0)
+                {
+                    GoFromRobot(controls, _closestEnemy);
+                }
+                else
+                {
+                    StopMovement(controls);
+                }
+            }
+            #endregion
+        }
+        else
+        {
+            #region Movement goal between Invuln and Speed or hiding behind Teammate
+            if (_closestInvuln != null || _closestSpeed != null)
+            {
+                if (_closestInvuln != null && _closestSpeed != null)
+                {
+
+                    if (Vector3.Distance(_closestInvuln, controls.myself.currentPosition) < Vector3.Distance(_closestSpeed, controls.myself.currentPosition))
+                    {
+                        GoForInvuln(controls);
+
+                    }
+                    else
+                    {
+                        GoForSpeed(controls);
+                    }
+                }
+                else if (_closestInvuln != null)
+                {
+                    GoForHealth(controls);
+                }
+                else if (_closestSpeed != null)
+                {
+                    GoForSpeed(controls);
+                }
+            }
+            else
+            {
+                if (visibleTeamMates.Count > 0 && visibleEnemies.Count > 0)
+                {
+                    HideBehindTeammate(controls);
+                }
+                else if (visibleEnemies.Count > 0)
+                {
+                    GoFromRobot(controls, _closestEnemy);
+                }
+                else
+                {
+                    StopMovement(controls);
+                }
+            }
+            #endregion
+        }
+    }
+
+    private void ProtectOrApproach(RobotControls controls)
+    {
+        if (visibleEnemies.Count > 0)
+        {
+            CoverTeammate(controls, _ballOwner);
+        }
+        else
+        {
+            if (Vector3.Distance(controls.myself.currentPosition, _ballOwner.currentPosition) < 3)
+            {
+                GoForRobot(controls, _ballOwner);
+            }
+            else
+            {
+                StopMovement(controls);
+            }
+        }
+    }
 
     //-------------------------------------------------------------------------------------------------
     //******Personal Methods*****
@@ -161,26 +343,41 @@ public class AIKiril : Brain
             {
                 if (_iHaveBall)
                 {
-
-                    if(controls.myself.currentHealth < 50f)
-                    {
-                        //check distance between invis and health
-                    }
+                    PickupHideOrRun(controls);
                 }
                 else
                 {
-
+                    ProtectOrApproach(controls);
                 }
             }
             else
             {
                 if(_ballOwnerUnknown)
                 {
+                    if (_closestSpeed != null)
+                    {
+                        if (Vector3.Distance(controls.myself.currentPosition, controls.updateBall) > Vector3.Distance(controls.myself.currentPosition, _closestSpeed))
+                        {
+                            GoForSpeed(controls);
+                        }
+                        else
+                        {
+                            GoForBall(controls);
+                        }
+                    }
+
 
                 }
                 else
                 {
+                    if(Vector3.Distance(controls.myself.currentPosition, _ballOwner.currentPosition) > 4f)
+                    {
+                        GoForRobot(controls, _ballOwner);
+                    }
+                    else
+                    {
 
+                    }
                 }
             }
         }
