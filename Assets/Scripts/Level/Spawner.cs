@@ -103,7 +103,6 @@ public class Spawner : MonoBehaviour
 			currentTime += Time.deltaTime;
 			yield return null;
 		}
-
 		target.SetActive(true);
 	}
 }
