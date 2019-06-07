@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,6 +34,7 @@ public class PlayerAttack : MonoBehaviour
         lastShootDirection = shootDir;
         GameObject bullet = Instantiate(projectile ,weaponHolder.position, Quaternion.identity);
         bullet.GetComponent<Rigidbody>().velocity = shootDir * projectileSpeed;
+        bullet.GetComponent<ProjectileBehaviour>().owner = GetComponent<Robot>();
 
         coolDownVariable = attackCoolDown;
 
