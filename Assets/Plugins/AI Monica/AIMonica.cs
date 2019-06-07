@@ -17,19 +17,19 @@ public class AIMonica : Brain
 
     public override void UpdateData(RobotControls controls)
     {
-        UpdateClosestPickup(controls);
+         UpdateClosestPickup(controls);
     }
 
     public override void UpdateAttack(RobotControls controls)
     {
         if (_noClosestEnemy == false)
         {
-            Cooldowntime -= Time.deltaTime;
-            if (Cooldowntime > Cooldown) return;
-            var EnemyDistance = _closestEnemy.currentPosition - controls.myself.currentPosition;
-            if (EnemyDistance.magnitude > 5) return;
+            //Cooldowntime -= Time.deltaTime;
+            //if (Cooldowntime > Cooldown) return;
+            //var EnemyDistance = _closestEnemy.currentPosition - controls.myself.currentPosition;
+            //if (EnemyDistance.magnitude > 5) return;
             controls.attack(_closestEnemy.currentPosition);
-            Cooldowntime = 0.5f;
+            //Cooldowntime = 0.5f;
         }
         else
         {
@@ -40,28 +40,21 @@ public class AIMonica : Brain
 
     public override void UpdateMovement(RobotControls controls)
     {
-        if (controls.myself.currentHealth < 50 || _noclosestHealth == false)
+        if (controls.myself.currentHealth < 50 && _noclosestHealth == false)
         {
             controls.goTo(_closestHealth.currentPickupPosition);
         }
         else
         {
-            if (controls.myself.currentPosition.x == controls.updateBall.x || controls.myself.currentPosition.y == controls.updateBall.y)
+            if (Vector3.Distance(controls.myself.currentPosition, controls.updateBall) < 2f)
             {
                 if (_noclosestPickup == false)
                 {
                     controls.goTo(_closestPickup.currentPickupPosition);
                 }
-                else
+                else 
                 {
-                    {
-                        if (_noClosestTeammate == false)
-                            controls.goTo(_closestTeammate.currentPosition);
-                        else
-                        {
-                            controls.goTo(Vector3.forward * Time.deltaTime);
-                        }
-                    }
+                    controls.goTo(_closestTeammate.currentPosition);
                 }
             }
             else
@@ -69,13 +62,18 @@ public class AIMonica : Brain
                 controls.goTo(controls.updateBall);
             }
         }
+
     }
 
     public override void UpdateBallPass(RobotControls controls)
     {
-        if (controls.myself.currentHealth <= 40 || _noClosestTeammate == false || controls.myself.currentPosition.x == controls.updateBall.x || controls.myself.currentPosition.y == controls.updateBall.y)
+        if (controls.myself.currentHealth < 40 && Vector3.Distance(controls.myself.currentPosition, controls.updateBall) < 1.5f)
         {
             controls.passBall(_closestTeammate.currentPosition);
+        }
+        else
+        {
+            return;
         }
     }
 
