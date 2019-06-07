@@ -116,7 +116,7 @@ namespace AI
 			{
 				if (robot.isSeen)
 				{
-					if (robot.team == controls.myself.team)
+					if (robot.team == controls.myself.team && robot.id != controls.myself.id)
 					{
 						visibleTeamMates.Add(robot);
 					}

@@ -483,6 +483,7 @@ public class AIKiril : Brain
 					}
 					else
 					{
+                        Debug.Log($"My teammate, {_ballOwner} has the ball");
 						_iHaveBall = false;
 					}
 				}
@@ -496,6 +497,7 @@ public class AIKiril : Brain
 						_ballCaptured = true;
 						_ballOwner = robot;
 						_enemyTeamHasTheBall = true;
+                        Debug.Log($"My enemy, {_ballOwner} has the ball");
 					}
 				}
 				else
@@ -505,6 +507,7 @@ public class AIKiril : Brain
 						_ballCaptured = true;
 						_enemyTeamHasTheBall = true;
                         _ballOwnerUnknown = true;
+                        Debug.Log($"Unknown enemy has the ball");
                     }
 				}
 			}
