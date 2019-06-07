@@ -7,7 +7,7 @@ public class AIName : Brain
 {
     public override void UpdateData(RobotControls controls)
     {
-
+        Debug.Log("I am Obsolete!");
     }
     public override void UpdateAttack(RobotControls controls)
     {

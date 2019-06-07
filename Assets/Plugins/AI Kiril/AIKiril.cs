@@ -41,11 +41,11 @@ public class AIKiril : Brain
 
     public override void UpdateData(RobotControls controls)
     {
+        CheckForVisibility(controls);
         UpdateClosestEnemy(controls);
         UpdateClosestTeammate(controls);
-        CheckForVisibility(controls);
-        CheckBallOwnership(controls);
         CheckPickups(controls);
+        CheckBallOwnership(controls);
         UpdateBehaviour(controls);
     }
 
@@ -123,7 +123,7 @@ public class AIKiril : Brain
     {
         _MoveVector = _closestHealth;
         _canMove = true;
-        if (Vector3.Distance(_closestHealth, controls.myself.currentPosition) > 2)
+        if (Vector3.Distance(_closestHealth, controls.myself.currentPosition) > 3)
         {
             foreach (SubjectivePickup pickup in controls.updatePickup)
             {
@@ -142,7 +142,7 @@ public class AIKiril : Brain
     {
         _MoveVector = _closestSpeed;
         _canMove = true;
-        if (Vector3.Distance(_closestSpeed, controls.myself.currentPosition) > 2)
+        if (Vector3.Distance(_closestSpeed, controls.myself.currentPosition) > 3)
         {
             foreach (SubjectivePickup pickup in controls.updatePickup)
             {
@@ -161,7 +161,7 @@ public class AIKiril : Brain
     {
         _MoveVector = _closestInvis;
         _canMove = true;
-        if(Vector3.Distance(_closestInvis, controls.myself.currentPosition) > 2)
+        if(Vector3.Distance(_closestInvis, controls.myself.currentPosition) > 3)
         {
             foreach(SubjectivePickup pickup in controls.updatePickup)
             {
@@ -180,7 +180,7 @@ public class AIKiril : Brain
     {
         _MoveVector = _closestInvuln;
         _canMove = true;
-        if (Vector3.Distance(_closestInvuln, controls.myself.currentPosition) > 2)
+        if (Vector3.Distance(_closestInvuln, controls.myself.currentPosition) > 3)
         {
             foreach (SubjectivePickup pickup in controls.updatePickup)
             {
@@ -219,6 +219,7 @@ public class AIKiril : Brain
 
     //-------------------------------------------------------------------------------------------------
     //******Behaviuors*****
+    #region Movement Behaviours
     private void PickupHideOrRun(RobotControls controls)
     {
         if (controls.myself.currentHealth < 50f)
@@ -240,11 +241,11 @@ public class AIKiril : Brain
                         GoForInvis(controls);
                     }
                 }
-                else if (_closestHealth != null)
+                else if (_closestHealth != null && !_recentlyHealed)
                 {
                     GoForHealth(controls);
                 }
-                else if (_closestInvis != null)
+                else if (_closestInvis != null && !_haveInvis)
                 {
                     GoForInvis(controls);
                 }
@@ -284,11 +285,11 @@ public class AIKiril : Brain
                         GoForSpeed(controls);
                     }
                 }
-                else if (_closestInvuln != null)
+                else if (_closestInvuln != null && !_haveInvuln)
                 {
                     GoForHealth(controls);
                 }
-                else if (_closestSpeed != null)
+                else if (_closestSpeed != null && !_haveSpeed)
                 {
                     GoForSpeed(controls);
                 }
@@ -331,6 +332,33 @@ public class AIKiril : Brain
         }
     }
 
+    private void SpeedOrBall(RobotControls controls)
+    {
+        if (_closestSpeed != null)
+        {
+            if (Vector3.Distance(controls.myself.currentPosition, _closestSpeed) < (Vector3.Distance(controls.myself.currentPosition, controls.updateBall) / 3f) && !_haveSpeed)
+            {
+                GoForSpeed(controls);
+            }
+            else
+            {
+                GoForBall(controls);
+            }
+        }
+    }
+
+    private void ApproachOwner(RobotControls controls)
+    {
+        if (Vector3.Distance(controls.myself.currentPosition, _ballOwner.currentPosition) > 4f)
+        {
+            GoForRobot(controls, _ballOwner);
+        }
+        else
+        {
+            StopMovement(controls);
+        }
+    }
+    #endregion
     //-------------------------------------------------------------------------------------------------
     //******Personal Methods*****
 
@@ -354,30 +382,11 @@ public class AIKiril : Brain
             {
                 if(_ballOwnerUnknown)
                 {
-                    if (_closestSpeed != null)
-                    {
-                        if (Vector3.Distance(controls.myself.currentPosition, controls.updateBall) > Vector3.Distance(controls.myself.currentPosition, _closestSpeed))
-                        {
-                            GoForSpeed(controls);
-                        }
-                        else
-                        {
-                            GoForBall(controls);
-                        }
-                    }
-
-
+                    SpeedOrBall(controls);
                 }
                 else
                 {
-                    if(Vector3.Distance(controls.myself.currentPosition, _ballOwner.currentPosition) > 4f)
-                    {
-                        GoForRobot(controls, _ballOwner);
-                    }
-                    else
-                    {
-
-                    }
+                    ApproachOwner(controls);
                 }
             }
         }
@@ -462,13 +471,14 @@ public class AIKiril : Brain
 		{
 			if (robot.team == controls.myself.team)
 			{
-				if (robot.currentPosition.x == _currentBallPosition.x && robot.currentPosition.y == _currentBallPosition.y)
+				if (Vector3.Distance(robot.currentPosition, _currentBallPosition) < 1.5f)
 				{
 					_ballCaptured = true;
 					_ballOwner = robot;
 					_enemyTeamHasTheBall = false;
 					if (robot.id == controls.myself.id)
 					{
+                        Debug.Log("I Have the ball");
 						_iHaveBall = true;
 					}
 					else
@@ -481,7 +491,7 @@ public class AIKiril : Brain
 			{
 				if (robot.isSeen)
 				{
-					if (robot.currentPosition.x == _currentBallPosition.x && robot.currentPosition.y == _currentBallPosition.y)
+					if (Vector3.Distance(robot.currentPosition, _currentBallPosition) < 1.5f)
 					{
 						_ballCaptured = true;
 						_ballOwner = robot;

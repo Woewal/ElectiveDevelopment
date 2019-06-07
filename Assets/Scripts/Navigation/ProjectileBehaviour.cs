@@ -7,14 +7,19 @@ public class ProjectileBehaviour : MonoBehaviour
 {
     public float timeToLive;
     public int damage;
+    public Robot owner;
+
 
 	void OnTriggerEnter(Collider other)
 	{
         if (other.gameObject.GetComponent<Robot>())
         {
             var robot = other.gameObject.GetComponent<Robot>();
-            robot.health.takeDamage(damage);
-            Destroy(this.gameObject);
+            if (robot.id != owner.id)
+            {
+                robot.health.takeDamage(damage);
+                Destroy(this.gameObject);
+            }
         }
         else if (other.tag.Equals("Wall"))
         {

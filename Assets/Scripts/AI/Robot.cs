@@ -48,6 +48,7 @@ namespace AI
             name = $"Robot: {id}";
 
             controls.archiveRobots = new List<SubjectiveRobot>();
+            controls.updatePickup = new List<SubjectivePickup>();
             InitialDataFill();
 
             controls.goTo = GoTo;
