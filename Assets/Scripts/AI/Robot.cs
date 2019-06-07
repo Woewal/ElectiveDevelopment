@@ -110,6 +110,14 @@ namespace AI
                     information.lastShootDir = robot.playerAttack.lastShootDirection;
                     information.isSeen = true;
                 }
+                else if(IsTeammate(robot))
+                {
+                    information.currentHealth = robot.health.CurrentHP;
+                    information.currentPosition = robot.playerMovement.currentRobotPosition;
+                    information.isAlive = robot.alive;
+                    information.lastShootDir = robot.playerAttack.lastShootDirection;
+                    information.isSeen = false;
+                }
                 else
                 {
                     information.isSeen = false;
