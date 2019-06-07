@@ -77,8 +77,9 @@ public class Ball : Pickup
 		_ignoredPlayer = null;
 	}
 
-	public void Drop()
+	public void Drop(PickupHandler pickupHandler)
 	{
+		pickupHandler.Ball = null;
 		BallManager.Instance.assignedPlayer = null;
 		AssignedPlayer.playerMovement.SlowDownStacks = 0;
 		AssignedPlayer.playerMovement.UpdateMovementSpeed();

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using AI;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,13 +31,20 @@ public class Health : MonoBehaviour
 
         visuals.StartEffect(4);
         Slider.DecreaseHealth(damage);
-    
+
 		if (CurrentHP <= 0)
 		{
-			CurrentHP = 0;
+			gameObject.SetActive(false);
+			CurrentHP = MaxHP;
 
-			CurrentHP = 100;
+			var pickupHandler = GetComponent<PickupHandler>();
 
+			if (pickupHandler.Ball != null)
+			{
+				pickupHandler.Ball.Drop(pickupHandler);
+			}
+
+			Spawner.Instance.Respawn(GetComponent<Robot>());
 		}
 	}
 
