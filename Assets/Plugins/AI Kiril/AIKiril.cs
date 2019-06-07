@@ -144,7 +144,8 @@ public class AIKiril : Brain
     //PassBall States
     private void PassToClosestTeammate(RobotControls controls)
     {
-
+        _PassBallVector = TargetPrediction(_closestTeammate, controls);
+        _canPassBall = true;
     }
 
 
