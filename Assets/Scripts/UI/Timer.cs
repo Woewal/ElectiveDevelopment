@@ -8,7 +8,7 @@ public class Timer : MonoBehaviour
     public Text GameTime;
     public float timeStart;
 
-   bool timeActive = true;
+  public bool timeActive = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,14 +18,17 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timeActive)
+        if (timeActive == true)
         {
             float t = Time.time;
             string minutes = ((int)t / 60).ToString();
             string seconds = (t % 60).ToString("F0");
 
             GameTime.text = minutes + ":" + seconds;
-           
+        }
+        else
+        {
+            GameTime.color = Color.yellow;
         }
     }
 }

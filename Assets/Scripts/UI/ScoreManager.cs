@@ -13,7 +13,7 @@ public class ScoreManager : MonoBehaviour
 	public TextMeshProUGUI Team2Text; 
 
     public UnityAction OnScore = delegate { };
-
+    bool scoreActive = true;
     public Dictionary<int, int> TeamPoints = new Dictionary<int, int>();
 
     public void Awake()
@@ -24,10 +24,17 @@ public class ScoreManager : MonoBehaviour
     }
 
     public void OnScored(Robot robot, int points)
-    {
-        OnScore();
-        TeamPoints[robot.team] += points;
-		UpdateScores();
+    { 
+      if(scoreActive == true)
+        {
+            OnScore();
+            TeamPoints[robot.team] += points;
+            UpdateScores();
+        }
+        else
+        {
+            return;
+        }
 	}
 
 	public void UpdateScores()
@@ -35,4 +42,13 @@ public class ScoreManager : MonoBehaviour
 		Team1Text.text = "Team 1: " + TeamPoints[1];
 		Team2Text.text = "Team 2: " + TeamPoints[2];
 	}
+
+    public void StopScores()
+    {
+        if (TeamPoints[1] == 100 && TeamPoints[2] == 100 )
+        {
+            scoreActive = false;
+           // Timer.t
+        }
+    }
 }
