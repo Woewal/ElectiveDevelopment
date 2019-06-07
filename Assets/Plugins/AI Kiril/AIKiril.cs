@@ -159,11 +159,26 @@ public class AIKiril : Brain
         {
             if(!_enemyTeamHasTheBall)
             {
+                if (_iHaveBall)
+                {
 
+                    if(controls.myself.currentHealth < 50f)
+                    {
+                        //check distance between invis and health
+                    }
+                }
+                else
+                {
+
+                }
             }
             else
             {
                 if(_ballOwnerUnknown)
+                {
+
+                }
+                else
                 {
 
                 }
