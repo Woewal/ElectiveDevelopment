@@ -36,6 +36,14 @@ public class Health : MonoBehaviour
 		{
 			gameObject.SetActive(false);
 			CurrentHP = MaxHP;
+
+			var pickupHandler = GetComponent<PickupHandler>();
+
+			if (pickupHandler.Ball != null)
+			{
+				pickupHandler.Ball.Drop(pickupHandler);
+			}
+
 			Spawner.Instance.Respawn(GetComponent<Robot>());
 		}
 	}

@@ -70,7 +70,7 @@ public class Spawner : MonoBehaviour
 
 	public void Respawn(Robot robot)
 	{
-		StartCoroutine(RespawnRobotCoroutine(RespawnDuration, robot));
+		StartCoroutine(RespawnRobotCoroutine(3, robot));
 	}
 
 	public void Respawn(GameObject target)
