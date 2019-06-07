@@ -24,12 +24,12 @@ public class AIMonica : Brain
     {
         if (_noClosestEnemy == false)
         {
-            //Cooldowntime -= Time.deltaTime;
-            //if (Cooldowntime > Cooldown) return;
-            //var EnemyDistance = _closestEnemy.currentPosition - controls.myself.currentPosition;
-            //if (EnemyDistance.magnitude > 5) return;
+            Cooldowntime -= Time.deltaTime;
+            if (Cooldowntime > Cooldown) return;
+            var EnemyDistance = _closestEnemy.currentPosition - controls.myself.currentPosition;
+            if (EnemyDistance.magnitude > 5) return;
             controls.attack(_closestEnemy.currentPosition);
-            //Cooldowntime = 0.5f;
+            Cooldowntime = 0.5f;
         }
         else
         {
