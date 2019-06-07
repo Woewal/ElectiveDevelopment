@@ -9723,6 +9723,7 @@ MonoBehaviour:
     type: 3}
   attackCoolDown: 1
   projectileSpeed: 10
+  coolDownVariable: 0
   weaponHolder: {fileID: 4200300825509291953}
 --- !u!114 &4200300825509291955
 MonoBehaviour:
@@ -9736,7 +9737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f501c59f2be83534890187dd3c242bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: 2373e8a02e0258441bdf3e7a0eeb55cb, type: 2}
+  brain: {fileID: 11400000, guid: 35574f452a1024141a4aa66a79a5fa6d, type: 2}
   playerAttack: {fileID: 4200300825509291954}
   playerMovement: {fileID: 4200300825509291967}
   health: {fileID: 6900884981927933383}
@@ -24222,6 +24223,47 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthBarCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 656f28785d2748544a178cf076f799cd,
+        type: 3}
+    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
+        type: 3}
+      propertyPath: m_Type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
+        type: 3}
+      propertyPath: m_FillMethod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
+        type: 3}
+      propertyPath: m_FillOrigin
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6741287938905231617, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -24326,47 +24368,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 656f28785d2748544a178cf076f799cd,
-        type: 3}
-    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
-        type: 3}
-      propertyPath: m_Type
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
-        type: 3}
-      propertyPath: m_FillMethod
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
-        type: 3}
-      propertyPath: m_FillAmount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6741287938394357143, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
-        type: 3}
-      propertyPath: m_FillOrigin
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6741287938348077548, guid: d095c8ab6b1a24ab58a02192ccb63fe4,
         type: 3}

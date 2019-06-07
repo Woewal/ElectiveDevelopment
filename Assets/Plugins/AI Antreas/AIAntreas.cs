@@ -23,17 +23,19 @@ public class AIAntreas : Brain
     bool opponentsVisible;
     bool lowOnHealth;
 
+    bool immobilised;
+
     public override void UpdateData(RobotControls controls){}
 
     public override void UpdateMovement(RobotControls controls)
     {
         #region Ball carrier exists
 
-            if(GetBallCarrier(controls) != null)
+            if (GetBallCarrier(controls) != null)
             {
                 #region I am ball carrier
 
-                    if(GetBallCarrier(controls).Value.team == controls.myself.team
+                    if (GetBallCarrier(controls).Value.team == controls.myself.team
                     && GetBallCarrier(controls).Value.id == controls.myself.id)
                     {
                         #region Powerup Exists
@@ -44,11 +46,13 @@ public class AIAntreas : Brain
                             opponentsVisible = GetSeenRobotTarget(controls, controls.myself.currentPosition, false, true) != null;
                             lowOnHealth = controls.myself.currentHealth > curHealthThreshold;
 
-                            if((powerupsVisible || powerupsRecalled) && (!lowOnHealth || !alliesVisible) && opponentsVisible)
+                            if ((powerupsVisible || powerupsRecalled) && (!lowOnHealth || !alliesVisible) && opponentsVisible)
                             {
                                 //Move towards closest powerup
                                 GetClosestPowerup(controls, controls.myself.currentPosition);
+                                immobilised = false;
                                 //Shoot closest opponent
+                                TragectoryPrediction(controls, GetSeenRobotTarget(controls, controls.myself.currentPosition, false, true));
                                 if (controls.reload == 0){}
                             }
 
@@ -62,11 +66,15 @@ public class AIAntreas : Brain
                             opponentsVisible = GetSeenRobotTarget(controls, controls.myself.currentPosition, false, true) != null;
                             lowOnHealth = controls.myself.currentHealth > curHealthThreshold;
 
-                            if((!powerupsVisible && !powerupsRecalled) && (!lowOnHealth || !alliesVisible) && opponentsVisible)
+                            if ((!powerupsVisible && !powerupsRecalled) && (!lowOnHealth || !alliesVisible) && opponentsVisible)
                             {
                                 //Move away from closest opponent
-                                GetSeenRobotTarget(controls, controls.myself.currentPosition, false, true);
+                                controls.goTo(
+                                GetSeenRobotTarget(controls, controls.myself.currentPosition, false, true).Value.currentPosition - 
+                                controls.myself.currentPosition);
+                                immobilised = false;
                                 //Shoot closest opponent
+                                TragectoryPrediction(controls, GetSeenRobotTarget(controls, controls.myself.currentPosition, false, true));
                             }
 
                         #endregion
@@ -79,10 +87,11 @@ public class AIAntreas : Brain
                             opponentsVisible = GetSeenRobotTarget(controls, controls.myself.currentPosition, false, true) != null;
                             lowOnHealth = controls.myself.currentHealth > curHealthThreshold;
 
-                            if((lowOnHealth && alliesVisible) && opponentsVisible)
+                            if ((lowOnHealth && alliesVisible) && opponentsVisible)
                             {
                                 //Pass the ball to furthest ally
-                                GetSeenRobotTarget(controls, controls.myself.currentPosition, true, false);
+                                controls.passBall(
+                                GetSeenRobotTarget(controls, controls.myself.currentPosition, true, false).Value.currentPosition);
                             }
 
                         #endregion
@@ -95,9 +104,14 @@ public class AIAntreas : Brain
                             opponentsVisible = GetSeenRobotTarget(controls, controls.myself.currentPosition, false, true) != null;
                             lowOnHealth = controls.myself.currentHealth > curHealthThreshold;
 
-                            if(!opponentsVisible)
+                            if (!opponentsVisible)
                             {
-                                //Stop moving
+                                if(immobilised)
+                                {
+                                    //Stop moving
+                                    controls.goTo(controls.myself.currentPosition);
+                                    immobilised = true;
+                                }
                             }
 
                         #endregion
@@ -107,22 +121,32 @@ public class AIAntreas : Brain
                 
                 #region Ally ball
 
-                    else if(GetBallCarrier(controls).Value.team == controls.myself.team)
+                    else if (GetBallCarrier(controls).Value.team == controls.myself.team)
                     {
                         //Move towards ball
                         controls.goTo(controls.updateBall);
+                        immobilised = false;
                         //Shoot at closest opponent to ball carrier if any
+                        if(GetSeenRobotTarget(controls, GetBallCarrier(controls).Value.currentPosition, false, true) != null)
+                        {
+                            TragectoryPrediction(controls, 
+                            GetSeenRobotTarget(controls, 
+                            GetBallCarrier(controls).Value.currentPosition, false, true));
+                        }
                     }
 
                 #endregion
 
                 #region Opponent ball
 
-                    else if(GetBallCarrier(controls).Value.team != controls.myself.team)
+                    else if (GetBallCarrier(controls).Value.team != controls.myself.team)
                     {
                         //Move towards ball
                         controls.goTo(controls.updateBall);
+                        immobilised = false;
                         //Shoot at ball carrier
+                        TragectoryPrediction(controls, 
+                        GetBallCarrier(controls));
                     }
 
                 #endregion
@@ -132,25 +156,25 @@ public class AIAntreas : Brain
 
         #region Anybody's ball
 
-            else if(GetBallCarrier(controls) == null)
+            else if (GetBallCarrier(controls) == null)
             {
                 //Move towards ball
                 controls.goTo(controls.updateBall);
+                immobilised = false;
                 //Shoot at closest opponent if any
+                if (GetSeenRobotTarget(controls, controls.myself.currentPosition, false, true) != null)
+                {
+                    TragectoryPrediction(controls, 
+                    GetSeenRobotTarget(controls, controls.myself.currentPosition, false, true));
+                }
             }
 
         #endregion
     }
 
-    public override void UpdateAttack(RobotControls controls)
-    {
-        
-    }
+    public override void UpdateAttack(RobotControls controls){}
 
-    public override void UpdateBallPass(RobotControls controls)
-    {
-        
-    }
+    public override void UpdateBallPass(RobotControls controls){}
 
     public SubjectiveRobot? GetSeenRobotTarget(RobotControls controls, Vector3 startPos, bool alliesOpponents, bool closestFurthest)
     {
@@ -194,7 +218,15 @@ public class AIAntreas : Brain
                 }
             }
         }
-        return target;
+        if (target != null)
+        {
+            return target.Value;
+        }
+        else
+        {
+            return null;
+        }
+        
     }
 
     public SubjectivePickup? GetClosestPowerup(RobotControls controls, Vector3 startPos)
@@ -252,7 +284,14 @@ public class AIAntreas : Brain
                 }
             }
         }
-        return ballCarrier.Value;
+        if (ballCarrier != null)
+        {
+            return ballCarrier.Value;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public Vector3 RecallPowerPositions(RobotControls controls)
@@ -279,46 +318,59 @@ public class AIAntreas : Brain
         }
     }
 
-    public Vector3 TargetTragectoryPredictionSystem(RobotControls controls, SubjectiveRobot target)
+    public void TragectoryPrediction(RobotControls controls, SubjectiveRobot? target)
     {
-        float tTimeElapsed = 0;
-        float pSpeed = 10;
-        float tSpeed = 0;
-        float pRatio = 0;
-        float tRatio = 0;
-        float tPosX = 0;
-
-        Vector3 tPosA = Vector3.zero;
-        Vector3 tPosB = Vector3.zero;
-        Vector3 tPos = Vector3.zero;
-        Vector3 tDistanceTraveled = Vector3.zero;
-        Vector3 tmDistance = Vector3.zero;
-        
-        while(tPos == Vector3.zero)
+        if (target != null && target.Value.isSeen)
         {
-            if (tTimeElapsed == 0)
+            float tTimeElapsed = 0;
+            float pSpeed = 10;
+            float tSpeed = 0;
+            float pRatio = 0;
+            float tRatio = 0;
+            float tPosX = 0;
+
+            Vector3 tPosA = Vector3.zero;
+            Vector3 tPosB = Vector3.zero;
+            Vector3 tPos = Vector3.zero;
+            Vector3 tDistanceTraveled = Vector3.zero;
+            Vector3 tmDistance = Vector3.zero;
+
+            if (controls.reload <= .5)
             {
-                tPosA = target.currentPosition;
-                tTimeElapsed += Time.deltaTime;
-            }
-            else if (tTimeElapsed > 0 && tTimeElapsed < 1)
-            {
-                tTimeElapsed += Time.deltaTime;
-            }
-            else if (tTimeElapsed >= 1)
-            {
-                tTimeElapsed = 0;
-                tPosB = target.currentPosition;
-                tDistanceTraveled = tPosB - tPosA;
-                tmDistance = tPosB - controls.myself.currentPosition;
-                tSpeed = tDistanceTraveled.magnitude / tTimeElapsed;
-                
-                pRatio = pSpeed / tSpeed;
-                tRatio = tSpeed / pSpeed;
-                tPosX = ( - pRatio + Mathf.Sqrt(pRatio * pRatio - 4 * tRatio * tmDistance.magnitude )) / 2 * tRatio;
-                tPos = new Vector3(tPosX, controls.myself.currentPosition.y, tPosX * pRatio);
+                if (tTimeElapsed == 0)
+                {
+                    tPosA = target.Value.currentPosition;
+                    Debug.Log("tPosA: " + tPosA);
+                    tTimeElapsed += Time.deltaTime;
+                }
+                else if (tTimeElapsed > 0 && tTimeElapsed < .5)
+                {
+                    tTimeElapsed += Time.deltaTime;
+                    Debug.Log("tTimeElapsed: " + tTimeElapsed);
+                }
+                else if (tTimeElapsed >= .5)
+                {
+                    tTimeElapsed = 0;
+                    tPosB = target.Value.currentPosition;
+                    Debug.Log("tPosB: " + tPosB);
+                    tDistanceTraveled = tPosB - tPosA;
+                    Debug.Log("tDistanceTraveled: " + tDistanceTraveled);
+                    tmDistance = tPosB - controls.myself.currentPosition;
+                    tSpeed = tDistanceTraveled.magnitude / tTimeElapsed;
+                    
+                    pRatio = pSpeed / tSpeed;
+                    Debug.Log("tSpeed: " + tSpeed);
+                    tRatio = tSpeed / pSpeed;
+                    Debug.Log("pSpeed: " + pSpeed);
+                    tPosX = ( - pRatio + Mathf.Sqrt(pRatio * pRatio - 4 * tRatio * tmDistance.magnitude )) / 2 * tRatio;
+                    Debug.Log("tPosX: " + tPosX);
+                    tPos = new Vector3(Mathf.Abs(tPosX), 2 * controls.myself.currentPosition.y, Mathf.Abs(tPosX * pRatio));
+                }
+                Debug.Log("tPos: " + tPos);
+                // controls.attack(tPos);
+                controls.attack(target.Value.currentPosition);
             }
         }
-        return tPos;
+        
     }
 }
