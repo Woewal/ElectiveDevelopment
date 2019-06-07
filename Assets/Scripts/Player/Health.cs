@@ -37,6 +37,8 @@ public class Health : MonoBehaviour
 			gameObject.SetActive(false);
 			CurrentHP = MaxHP;
 
+			Slider.IncreaseHealth(MaxHP);
+
 			var pickupHandler = GetComponent<PickupHandler>();
 
 			if (pickupHandler.Ball != null)

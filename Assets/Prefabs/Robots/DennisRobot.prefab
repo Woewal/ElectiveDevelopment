@@ -9737,7 +9737,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f501c59f2be83534890187dd3c242bbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: 2373e8a02e0258441bdf3e7a0eeb55cb, type: 2}
+  brain: {fileID: 11400000, guid: 01600c6d00a5abd40bbe186df1b3faf9, type: 2}
   playerAttack: {fileID: 4200300825509291954}
   playerMovement: {fileID: 4200300825509291967}
   health: {fileID: 4447948887438967727}

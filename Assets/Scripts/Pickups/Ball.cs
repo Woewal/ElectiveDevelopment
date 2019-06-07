@@ -84,7 +84,7 @@ public class Ball : Pickup
 		AssignedPlayer.playerMovement.SlowDownStacks = 0;
 		AssignedPlayer.playerMovement.UpdateMovementSpeed();
 		AssignedPlayer = null;
-		transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+		transform.position = new Vector3(transform.position.x, 1.5f, transform.position.z);
 		transform.SetParent(null);
 	}
 }
