@@ -109,7 +109,8 @@ public class AIKiril : Brain
     private void GoFromRobot(RobotControls controls, SubjectiveRobot robot)
     {
         Vector3 moveDir = controls.myself.currentPosition - robot.currentPosition;
-        _MoveVector = moveDir.normalized + controls.myself.currentPosition;
+        //_MoveVector = moveDir.normalized + controls.myself.currentPosition;
+        _MoveVector = moveDir;
         _canMove = true;
     }
 
@@ -198,6 +199,7 @@ public class AIKiril : Brain
     //Shooting States
     private void ShootClosestTarget(RobotControls controls)
     {
+        StopMovement(controls);
         currentTarget = _closestEnemy;
         _ShootVector = TargetPrediction(currentTarget, controls);
         _canShoot = true;
@@ -205,6 +207,7 @@ public class AIKiril : Brain
 
     private void ShootBallOwner(RobotControls controls)
     {
+        StopMovement(controls);
         currentTarget = _ballOwner;
         _ShootVector = TargetPrediction(currentTarget, controls);
         _canShoot = true;
@@ -222,6 +225,9 @@ public class AIKiril : Brain
     #region Movement Behaviours
     private void PickupHideOrRun(RobotControls controls)
     {
+        CheckForVisibility(controls);
+        UpdateClosestEnemy(controls);
+        UpdateClosestTeammate(controls);
         if (controls.myself.currentHealth < 50f)
         {
             #region Movement goal between Health and Invis or hiding behind Teammate
@@ -315,6 +321,9 @@ public class AIKiril : Brain
 
     private void ProtectOrApproach(RobotControls controls)
     {
+        CheckForVisibility(controls);
+        UpdateClosestEnemy(controls);
+        UpdateClosestTeammate(controls);
         if (visibleEnemies.Count > 0)
         {
             CoverTeammate(controls, _ballOwner);
@@ -334,6 +343,9 @@ public class AIKiril : Brain
 
     private void SpeedOrBall(RobotControls controls)
     {
+        CheckForVisibility(controls);
+        UpdateClosestEnemy(controls);
+        UpdateClosestTeammate(controls);
         if (_closestSpeed != null)
         {
             if (Vector3.Distance(controls.myself.currentPosition, _closestSpeed) < (Vector3.Distance(controls.myself.currentPosition, controls.updateBall) / 3f) && !_haveSpeed)
@@ -349,6 +361,9 @@ public class AIKiril : Brain
 
     private void ApproachOwner(RobotControls controls)
     {
+        CheckForVisibility(controls);
+        UpdateClosestEnemy(controls);
+        UpdateClosestTeammate(controls);
         if (Vector3.Distance(controls.myself.currentPosition, _ballOwner.currentPosition) > 4f)
         {
             GoForRobot(controls, _ballOwner);
@@ -356,6 +371,34 @@ public class AIKiril : Brain
         else
         {
             StopMovement(controls);
+        }
+    }
+    #endregion
+
+    #region Attack Behaviuors
+
+    private void KillClosestEnemy(RobotControls controls)
+    {
+        CheckForVisibility(controls);
+        UpdateClosestEnemy(controls);
+        UpdateClosestTeammate(controls);
+        if (visibleEnemies.Count > 0)
+        {
+            if (controls.reload <= 0.3)
+            {
+                ShootClosestTarget(controls);
+            }
+        }
+    }
+
+    private void KillBallOwner(RobotControls controls)
+    {
+        CheckForVisibility(controls);
+        UpdateClosestEnemy(controls);
+        UpdateClosestTeammate(controls);
+        if (controls.reload < 0.3)
+        {
+            ShootBallOwner(controls);
         }
     }
     #endregion
@@ -372,10 +415,12 @@ public class AIKiril : Brain
                 if (_iHaveBall)
                 {
                     PickupHideOrRun(controls);
+                    KillClosestEnemy(controls);
                 }
                 else
                 {
                     ProtectOrApproach(controls);
+                    KillClosestEnemy(controls);
                 }
             }
             else
@@ -383,12 +428,18 @@ public class AIKiril : Brain
                 if(_ballOwnerUnknown)
                 {
                     SpeedOrBall(controls);
+                    KillClosestEnemy(controls);
                 }
                 else
                 {
                     ApproachOwner(controls);
+                    KillBallOwner(controls);
                 }
             }
+        }
+        else
+        {
+            SpeedOrBall(controls);
         }
     }
    
@@ -471,7 +522,7 @@ public class AIKiril : Brain
 		{
 			if (robot.team == controls.myself.team)
 			{
-				if (Vector3.Distance(robot.currentPosition, _currentBallPosition) < 1.5f)
+				if (Vector3.Distance(robot.currentPosition, _currentBallPosition) <1.3f)
 				{
 					_ballCaptured = true;
 					_ballOwner = robot;
@@ -492,7 +543,7 @@ public class AIKiril : Brain
 			{
 				if (robot.isSeen)
 				{
-					if (Vector3.Distance(robot.currentPosition, _currentBallPosition) < 1.5f)
+					if (Vector3.Distance(robot.currentPosition, _currentBallPosition) <1.3f)
 					{
 						_ballCaptured = true;
 						_ballOwner = robot;
@@ -526,21 +577,26 @@ public class AIKiril : Brain
         Vector3 predictionPoint;
 
         Vector3 startPoint = target.currentPosition;
-        while (coolDownVar > 0)
+        if (coolDownVar > 0)
         {
             coolDown -= Time.deltaTime;
+            return new Vector3(0, 0, 0);
         }
-        Vector3 endPoint = target.currentPosition;
-        Vector3 targetMovementVector = endPoint - startPoint;
-        targetSpeed = targetMovementVector.magnitude / coolDown;
-        Vector3 distanceVector = endPoint - controls.myself.currentPosition;
-        float distance = distanceVector.magnitude;
-        float projection = Vector3.Project(targetMovementVector, distanceVector).magnitude;
-        float timeToReach;
-        timeToReach = (float)Math.Sqrt((Math.Pow(distance + projection, 2) + (Math.Pow(targetSpeed, 2) - Math.Pow(projection, 2))) / Math.Pow(projectileSpeed, 2));
+        else
+        {
+            Vector3 endPoint = target.currentPosition;
+            Vector3 targetMovementVector = endPoint - startPoint;
+            targetSpeed = targetMovementVector.magnitude / coolDown;
+            Vector3 distanceVector = endPoint - controls.myself.currentPosition;
+            float distance = distanceVector.magnitude;
+            float projection = Vector3.Project(targetMovementVector, distanceVector).magnitude;
+            float timeToReach;
+            timeToReach = (float)Math.Sqrt((Math.Pow(distance + projection, 2) + (Math.Pow(targetSpeed, 2) - Math.Pow(projection, 2))) / Math.Pow(projectileSpeed, 2));
 
-        predictionPoint = targetMovementVector / (coolDown * timeToReach);
-        return predictionPoint;
+            predictionPoint = targetMovementVector / (coolDown * timeToReach);
+            return new Vector3(predictionPoint.x, controls.myself.currentPosition.y, predictionPoint.z);
+        }
+
     }
 
 }
